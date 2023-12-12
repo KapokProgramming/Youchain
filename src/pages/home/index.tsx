@@ -96,30 +96,7 @@ const HomePage: NextPageWithLayout = () => {
                             Profile
                           </button>
                         </div>
-                        <div className="HStack rounded-2xl p-4 gap-2 hover:System-background-secondary">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            className="w-5 h-5"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-
-                          <button
-                            type="button"
-                            // onClick={logOut}
-                            className="Label text-left"
-                          >
-                            Recently watched
-                          </button>
-                        </div>
+                        
 
                         <div className="HStack rounded-2xl p-4 gap-2 hover:System-background-secondary">
                           <svg
@@ -145,6 +122,34 @@ const HomePage: NextPageWithLayout = () => {
                             Status
                           </button>
                         </div>
+                        <div className="Herizontal-line"> </div>
+
+                        <div className="HStack rounded-2xl p-4 gap-2 hover:System-background-secondary">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+
+                          <button
+                            type="button"
+                            // onClick={logOut}
+                            className="Label text-left"
+                          >
+                            Recently watched
+                          </button>
+                        </div>
+                        <div className="Herizontal-line"> </div>
+
                         <div className="HStack rounded-2xl p-4 gap-2 hover:System-background-secondary">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -174,6 +179,8 @@ const HomePage: NextPageWithLayout = () => {
                             Setting
                           </button>
                         </div>
+
+                        <div className="Herizontal-line"> </div>
                         <div className="HStack rounded-2xl p-4 gap-2 hover:System-background-secondary">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
