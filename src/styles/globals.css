@@ -67,3 +67,22 @@ a:hover {
     bottom: 10px;
   }
 }
+
+@layer components {
+  .HStack {
+    @apply flex flex-row;
+  }
+
+  .VStack {
+    @apply flex flex-col;
+  }
+  .System-background {
+    background-color: rgba(0, 0, 0, 1);
+  }
+  .System-background-secondary {
+    background-color: #1C1C1E;
+  }
+  .Label {
+    color: #FFFFFF;
+  }
+}
