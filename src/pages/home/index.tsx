@@ -47,7 +47,7 @@ const HomePage: NextPageWithLayout = () => {
         id="stage"
         className="-z-10 fixed m-4 top-0 rounded-3xl bottom-0 left-0 right-0 overflow-hidden System-background-secondary"
         style={{
-            width: isSafeAreaActive ? "85%" : "98%",
+            width: isSafeAreaActive ? "85%" : "98.2%",
             right: isSafeAreaActive ? "0" : "auto",
             left: isSafeAreaActive ? "auto" : "0",
             position: "absolute",
@@ -255,7 +255,7 @@ const HomePage: NextPageWithLayout = () => {
           id="panel"
           className="VStack rounded-lg gap-1 p-4 m-4 w-1/5 top-0 bottom-0 left-0 right-0 absolute -z-10 System-background Label"
         >
-          <a href="">Home</a>
+          <a href="" className="">Home</a>
           <a href="">Short</a>
           <a href="">Subscriptions</a>
         </div>
