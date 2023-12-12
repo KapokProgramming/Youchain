@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/auth";
 import styled from "styled-components";
 import { Text } from "@/components/lib/Text";
 import { useState } from "react";
+import { log } from "console";
 
 const Button = styled.header`
   button {
@@ -22,6 +23,7 @@ const HomePage: NextPageWithLayout = () => {
   const logOut = useAuthStore((store) => store.logOut);
   const { requestAuthentication } = useSignInRedirect();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isSafeAreaActive, setSafeAreaActive] = useState(false);
 
   // Function to toggle dropdown visibility
   const toggleDropdown = () => {
@@ -32,17 +34,30 @@ const HomePage: NextPageWithLayout = () => {
   const closeDropdown = () => {
     setDropdownOpen(false);
   };
+
+  const toggleSafeArea = () => {
+    setSafeAreaActive(!isSafeAreaActive);
+    setDropdownOpen(false); // Close the dropdown when toggling
+  };
+
+  
   return (
     <>
       <div
         id="stage"
         className="-z-10 fixed m-4 top-0 rounded-3xl bottom-0 left-0 right-0 overflow-hidden System-background-secondary"
+        style={{
+            width: isSafeAreaActive ? "85%" : "98%",
+            right: isSafeAreaActive ? "0" : "auto",
+            left: isSafeAreaActive ? "auto" : "0",
+            position: "absolute",
+            transition: "width 0.5s ease", // Optional: Add transition effect
+          }}
       >
         <div
           id="navigation"
           className="m-4 z-40 fixed space-x-4 right-4 HStack"
         >
-
           {signedIn ? (
             <>
               <div onClick={toggleDropdown}>
@@ -96,7 +111,6 @@ const HomePage: NextPageWithLayout = () => {
                             Profile
                           </button>
                         </div>
-                        
 
                         <div className="HStack rounded-2xl p-4 gap-2 hover:System-background-secondary">
                           <svg
@@ -235,6 +249,7 @@ const HomePage: NextPageWithLayout = () => {
       <div
         id="safe-area"
         className="-z-20 fixed top-0 bottom-0 left-0 right-0 overflow-hidden bg-black"
+        onClick={toggleSafeArea}
       >
         <div
           id="panel"
