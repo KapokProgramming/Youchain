@@ -105,4 +105,7 @@ a:hover {
     background-color: #FFFFFF;
     margin: 4px;
   }
+  .Circle {
+    border-radius: 99999px;
+  }
 }
