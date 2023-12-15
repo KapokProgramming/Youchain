@@ -291,6 +291,6 @@ const SignUpPage: NextPageWithLayout = () => {
   );
 };
 
-SignUpPage.getLayout = useDefaultLayout;
+// SignUpPage.getLayout = useDefaultLayout;
 
 export default SignUpPage;
