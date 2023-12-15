@@ -221,7 +221,7 @@ export function DefaultLayout({ children }: Props) {
 
         {/* ========================== Conten ========================== */}
 
-        <div className="z-50 VStack">
+        <div className="z-50 VStack bg-white h-full">
           <div
             onClick={toggleSafeArea}
             className="p-2 fixed rounded-md  m-6 System-background-ocean-blue cursor-pointer"

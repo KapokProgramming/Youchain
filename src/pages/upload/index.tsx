@@ -91,8 +91,8 @@ const UploadPage = () => {
   
 
   return (
-    <div className=" w-full h-full">
-      <h1 className="text-white mt-5 ml-3 font-bold text-4xl">
+    <div className=" w-full h-full text-black Sub-title">
+      <h1 className="Title mt-5 ml-3 font-bold text-4xl">
         Upload Your Video
       </h1>
       <div className="h-full grid grid-cols-2">
@@ -148,7 +148,7 @@ const UploadPage = () => {
 
                   <button
                     type="submit"
-                    className="mt-4 bg-blue-500 text-white p-2 rounded-md"
+                    className="mt-4 bg-blue-500  p-2 rounded-md"
                   >
                     Upload
                   </button>
@@ -156,8 +156,8 @@ const UploadPage = () => {
               </div>
             </div>
             <div className="col-span-1 w-full h-1/4 round-md overflow-hidden mt-16">
-              <h1 className="text-white text-xl font-bold">Tags</h1>
-              <select className="w-5/6 rounded-sm ml-16 mt-5 h-1/6 text-center">
+              <h1 className=" text-xl font-bold">Tags</h1>
+              <select className="w-5/6 System-background-blue rounded-sm ml-16 mt-5 h-1/6 text-center">
                 { LoopType(typeVideo) }
               </select>
             </div>
@@ -166,13 +166,13 @@ const UploadPage = () => {
 
         <div className="grid grid-rows-1 h-full w-full ml-8">
           <div className=" ml-16 h-full col-span-1 w-full mt-16">
-            <h1 className="text-white font-bold text-xl ">Title</h1>
+            <h1 className=" font-bold text-xl ">Title</h1>
             <div className="w-full overflow-hidden ml-5 rounded-sm mt-8 h-1/6">
-              <input type="area" className="w-3/4 h-1/4 pl-2" />
+              <input type="area" className="w-3/4 h-1/4 pl-2  System-background-blue" />
             </div>
             <div className="col-span-1 w-full h-3/4 round-md overflow-hidden -mt-12">
-              <h1 className="text-white font-bold text-xl">Description</h1>
-              <textarea className="w-3/4 rounded-sm ml-5 mt-5 h-3/6 p-2" />
+              <h1 className="font-bold text-xl">Description</h1>
+              <textarea className="w-3/4 System-background-blue rounded-lg ml-5 mt-5 h-3/6 p-2" />
             </div>
           </div>
         </div>
