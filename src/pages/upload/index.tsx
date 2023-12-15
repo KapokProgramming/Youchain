@@ -136,9 +136,9 @@ const UploadPage = () => {
   );
 };
 
-const UploaderPagesInput: NextPageWithLayout = () => {
+const UploaderPagesInput: NextPageWithLayout = (() => {
   return (
-    <>
+    <div className=" w-full h-full">
       <h1 className="text-white mt-5 ml-3 font-bold text-4xl">Upload Your Video</h1>
       <div className="h-full grid grid-cols-2">
         <div className="grid grid-rows-1 h-full w-full">
@@ -148,7 +148,14 @@ const UploaderPagesInput: NextPageWithLayout = () => {
             </div>
             <div className="col-span-1 w-full h-1/4 round-md overflow-hidden mt-16">
               <h1 className="text-white text-xl font-bold">Tags</h1>
-              <input type=" text" className="w-full rounded-sm ml-8 mt-5 h-1/4 " />
+              <select className="w-5/6 rounded-sm ml-16 mt-5 h-1/6 text-center">
+                <option value="0"></option>
+                <option value="1">Funny</option>
+                <option value="2">Horror</option>
+                <option value="3">Comedy</option>
+                <option value="4">Science</option>
+                <option value="5">Reaction</option>
+              </select>
             </div>
           </div>
         </div>
@@ -156,24 +163,20 @@ const UploaderPagesInput: NextPageWithLayout = () => {
         <div className="grid grid-rows-1 h-full w-full">
 
           <div className=" ml-16 h-full col-span-1 w-full mt-16">
-            <h1 className="text-white font-bold text-xl">Title</h1>
-            <div className="w-full overflow-hidden ml-5 rounded-sm mt-8">
-              <input type="area" className="w-3/4 " />
+            <h1 className="text-white font-bold text-xl ">Title</h1>
+            <div className="w-full overflow-hidden ml-5 rounded-sm mt-8 h-1/6">
+              <input type="area" className="w-3/4 h-1/4 pl-2" />
             </div>
-            <div className="col-span-1 w-full h-3/4 round-md overflow-hidden mt-16">
+            <div className="col-span-1 w-full h-3/4 round-md overflow-hidden -mt-12">
               <h1 className="text-white font-bold text-xl">Description</h1>
-              <input type=" text" className="w-3/4 rounded-sm ml-5 mt-5 h-3/6" />
+              <textarea className="w-3/4 rounded-sm ml-5 mt-5 h-3/6 p-2" />
             </div>
           </div>
-        
+          </div>
         </div>
-
-
-
       </div>
-    </>
   );
-};
+});
 
 UploaderPagesInput.getLayout = useDefaultLayout;
 
