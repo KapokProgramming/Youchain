@@ -12,7 +12,7 @@ interface Props {
   children: ReactNode;
 }
 
-export function DefaultLayout({ children }: Props) {
+export function   DefaultLayout({ children }: Props) {
   const signedIn = useAuthStore((store) => store.signedIn);
   const accountId = useAuthStore((store) => store.accountId);
   const logOut = useAuthStore((store) => store.logOut);
@@ -237,7 +237,7 @@ export function DefaultLayout({ children }: Props) {
 
         {/* ========================== Conten ========================== */}
 
-        <div className="z-50 VStack p-4">{children}</div>
+        <div className="z-50 VStack p-4 h-full">{children}</div>
 
         {/* Display the search bar conditionally */}
         {isSearchBarVisible && (
