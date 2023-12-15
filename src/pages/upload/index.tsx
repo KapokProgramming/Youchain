@@ -4,7 +4,8 @@ import type { NextPageWithLayout } from "@/utils/types";
 import { storage } from "@/components/lib/Firebase/index";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import {useRef, useState} from 'react';
+import { useRef, useState } from "react";
+import { uploadVideo } from "@/components/lib/Firebase/storage";
 
 const UploadPage: NextPageWithLayout = () => {
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -21,23 +22,20 @@ const UploadPage: NextPageWithLayout = () => {
 
   async function handleSubmitFile(e: any) {
     e.preventDefault();
-    if (files.length === 0) {
-      // no file has been submitted
-    } else {
-      // upload the file to Firebase Storage
+
+
+
+    if (files.length !== 0) {
       const file = files[0];
-      const storageRef = ref(storage, `uploads/${file.name}`);
-      
-      try {
-        await uploadBytes(storageRef, file);
-        // Get the download URL for the uploaded file
-        const downloadURL = await getDownloadURL(storageRef);
-        console.log("File uploaded:", downloadURL);
-        // Handle further actions, e.g., saving the download URL to Firestore
-      } catch (error: any) {
-        console.error("Error uploading file:", error.message);
-        // Handle error
+
+      //TODO: File extension Check
+      try{
+        uploadVideo(file);
+      }catch(e){
+        console.error(e);
       }
+    }else{
+      console.log("Please upload file");
     }
   }
 
@@ -89,14 +87,12 @@ const UploadPage: NextPageWithLayout = () => {
           dragActive ? "bg-blue-400" : "bg-blue-100"
         }  p-4 w-1/3 rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center`}
         onDragEnter={handleDragEnter}
-        onSubmit={handleSubmitFile} 
+        onSubmit={handleSubmitFile}
         onDrop={handleDrop}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
       >
-
-
-       <input
+        <input
           placeholder="fileInput"
           className="hidden"
           ref={inputRef}
@@ -117,7 +113,7 @@ const UploadPage: NextPageWithLayout = () => {
           to upload
         </p>
 
-      <div className="flex flex-col items-center p-3">
+        <div className="flex flex-col items-center p-3">
           {files.map((file: any, idx: any) => (
             <div key={idx} className="flex flex-row space-x-5">
               <span>{file.name}</span>
@@ -130,8 +126,11 @@ const UploadPage: NextPageWithLayout = () => {
             </div>
           ))}
         </div>
- 
-        <button type="submit" className="mt-4 bg-blue-500 text-white p-2 rounded-md">
+
+        <button
+          type="submit"
+          className="mt-4 bg-blue-500 text-white p-2 rounded-md"
+        >
           Upload
         </button>
       </form>
