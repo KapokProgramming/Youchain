@@ -231,64 +231,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
       return variants[variant][fill][state][key] || variants[variant][fill][key];
     }
 
-    const StyledButton = styled.button`
-      all: unset;
-      box-sizing: border-box;
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: ${icon ? sizes[size].height : undefined};
-      height: ${sizes[size].height};
-      padding: ${icon ? '0' : `0 ${sizes[size].paddingX}`};
-      font: ${sizes[size].font};
-      font-weight: 600;
-      line-height: 1;
-      border-radius: 100px;
-      background: ${returnColor('default', 'background')};
-      color: ${returnColor('default', 'color')};
-      border: 1px solid ${returnColor('default', 'border')};
-      box-shadow: 0 0 0 0px var(--violet4);
-      cursor: pointer;
-      transition: all 200ms;
-      text-decoration: none !important;
 
-      &:hover {
-        background: ${returnColor('hover', 'background')};
-        color: ${returnColor('hover', 'color')};
-        border: 1px solid ${returnColor('hover', 'border')};
-      }
-      &:focus {
-        background: ${returnColor('focus', 'background')};
-        color: ${returnColor('focus', 'color')};
-        border: 1px solid ${returnColor('focus', 'border')};
-        box-shadow: 0 0 0 4px var(--violet4);
-      }
-      &:active {
-        background: ${returnColor('active', 'background')};
-        color: ${returnColor('active', 'color')};
-        border: 1px solid ${returnColor('active', 'border')};
-      }
-
-      ${loading &&
-      `
-        pointer-events: none;
-      `}
-
-      ${disabled &&
-      `
-        opacity: 1;
-        background: ${fill === 'ghost' ? 'hsla(0, 0%, 100%, 0)' : 'var(--sand3)'};
-        border-color: var(--sand3);
-        color: var(--sand8);
-        pointer-events: none;
-    
-        i {
-          color: var(--sand8) !important;
-        }
-      `}
-    `;
 
     const Inner = styled.span`
       display: inline-flex;
@@ -333,7 +276,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
     `;
 
     return (
-      <StyledButton ref={ref} {...conditionalAttributes} {...forwardedProps}>
+      <button ref={ref} {...conditionalAttributes} {...forwardedProps}>
         <>
           {loading && <Spinner className="ph-bold ph-circle-notch" />}
           <Inner>
@@ -348,7 +291,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
             )}
           </Inner>
         </>
-      </StyledButton>
+      </button>
     );
   },
 );
