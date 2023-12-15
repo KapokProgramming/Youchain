@@ -4,8 +4,8 @@ import { Playlist } from "@/components/lib/Playlist/index";
 const SubscriptionPage: NextPageWithLayout = () => {
   return (
     <>
-      <div className="Label">
-        <div className="HStack Lable gap-4">
+      <div className="text-black">
+        <div className="HStack  gap-4">
           <iframe
             width="300px"
             height="165px"
@@ -16,7 +16,7 @@ const SubscriptionPage: NextPageWithLayout = () => {
           ></iframe>{" "}
           <div className="VStack justify-between">
             <div className="">
-              <p className="Label font-medium text-lg">
+              <p className=" font-medium text-lg">
                 영화 'Wonka'(2023) 예고편(trailer)으로 영어 공부하기
               </p>
               <p className="Grey">4 days ago</p>
