@@ -3,7 +3,7 @@ import type { NextPageWithLayout } from '@/utils/types';
 const HomePage: NextPageWithLayout = () => {
   return (
     <>
-    {/* <p className="Label">Home Page</p> */}
+    <p className="Label">Home Page</p>
     </>
   )
    

@@ -3,10 +3,12 @@ import { NextPageWithLayout } from "@/utils/types";
 import { useDefaultLayout } from "@/hooks/useLayout";
 import { useSignInRedirect } from "@/hooks/useSignInRedirect";
 import { useAuthStore } from "@/stores/auth";
-import styled from "styled-components";
-import { Text } from "@/components/lib/Text";
+import { GoHomeFill } from "react-icons/go";
+import { PiVideoCameraFill } from "react-icons/pi";
+import { FiPlus } from "react-icons/fi";
+import { useRouter } from "next/router";
+
 import { useState } from "react";
-import { log } from "console";
 import Link from "next/link";
 interface Props {
   children: ReactNode;
@@ -15,11 +17,13 @@ interface Props {
 export function DefaultLayout({ children }: Props) {
   const signedIn = useAuthStore((store) => store.signedIn);
   const accountId = useAuthStore((store) => store.accountId);
+  const accountProfile = useAuthStore((store) => store.account);
   const logOut = useAuthStore((store) => store.logOut);
   const { requestAuthentication } = useSignInRedirect();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSafeAreaActive, setSafeAreaActive] = useState(true);
   const [isSearchBarVisible, setSearchBarVisible] = useState(false);
+  const router = useRouter();
 
   // Function to toggle dropdown visibility
   const toggleDropdown = () => {
@@ -47,9 +51,9 @@ export function DefaultLayout({ children }: Props) {
     <>
       <div
         id="stage"
-        className="-z-10 fixed m-4 top-0 rounded-3xl bottom-0 left-0 right-0 overflow-hidden System-background-secondary"
+        className="z-40 fixed top-0  bottom-20 lg:bottom-0 left-0 right-0 overflow-hidden bg-white"
         style={{
-          width: isSafeAreaActive ? "85%" : "98.2%",
+          width: isSafeAreaActive ? "82%" : "100%",
           right: isSafeAreaActive ? "0" : "auto",
           left: isSafeAreaActive ? "auto" : "0",
           overflowY: "auto", // Add this line to enable vertical scrolling
@@ -57,19 +61,15 @@ export function DefaultLayout({ children }: Props) {
           transition: "width 0.5s ease", // Optional: Add transition effect
         }}
       >
-        <div
-          id="navigation"
-          className=" m-4 z-40 fixed space-x-4 right-4 HStack"
-        >
+        <div id="account" className=" m-4 z-40 fixed space-x-4 right-4 HStack">
           {signedIn ? (
             <>
               <div onClick={toggleDropdown}>
-                <div className="VStack rounded-3xl p-3 System-background-grey-5 Label hover: System-background-secondary">
+                <div className="VStack rounded-lg p-3 System-background-ocean-blue text-white hover: System-background-secondary">
                   <div className="HStack gap-2">
                     <img
-                      src="#"
-                      alt="profile"
-                      className="w-6 h-6 rounded-full"
+                      src="{accountProfile}"
+                      className="w-6 h-6 rounded-sm"
                     />
                     <p>{accountId}</p>
                     <svg
@@ -94,7 +94,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           // onClick={logOut}
-                          className="Label HStack text-left rounded-2xl p-4 gap-2 hover:System-background-secondary"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           // onClick={logOut}
-                          className="Label HStack text-left rounded-2xl p-4 gap-2 hover:System-background-secondary"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +139,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           // onClick={logOut}
-                          className="Label HStack text-left rounded-2xl p-4 gap-2 hover:System-background-secondary"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -155,14 +155,14 @@ export function DefaultLayout({ children }: Props) {
                               d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
-                          Recently watched
+                          Activities
                         </button>
                         <div className="Herizontal-line"> </div>
 
                         <button
                           type="button"
                           onClick={logOut}
-                          className="Label HStack text-left rounded-2xl p-4 gap-2 hover:System-background-secondary"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           onClick={logOut}
-                          className="Label HStack text-left rounded-2xl p-4 gap-2 hover:System-background-secondary"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -217,19 +217,20 @@ export function DefaultLayout({ children }: Props) {
             </>
           ) : (
             <>
-              <button
-                type="button"
-                onClick={() => requestAuthentication()}
-                className="z-50 Label Button System-background-grey-5"
-              >
-                Sign In
-              </button>
+              
               <button
                 type="button"
                 onClick={() => requestAuthentication(true)}
-                className="z-50 Label Button System-background-grey-5"
+                className="z-50 Button-secondary p-2"
               >
                 Create Account
+              </button>
+              <button
+                type="button"
+                onClick={() => requestAuthentication()}
+                className="z-50 Button-primary p-2"
+              >
+                Log In
               </button>
             </>
           )}
@@ -237,114 +238,517 @@ export function DefaultLayout({ children }: Props) {
 
         {/* ========================== Conten ========================== */}
 
-        <div className="z-50 VStack p-4">{children}</div>
+        <div className="z-50 VStack">{children}</div>
 
         {/* Display the search bar conditionally */}
         {isSearchBarVisible && (
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-md shadow-md">
+          <div
+            onClick={toggleSearchBar}
+            className="fixed w-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-3 rounded-3xl shadow-md"
+          >
             {/* Your search bar content goes here */}
             <input
               type="text"
               placeholder="Search..."
-              className="w-full p-2 border"
+              className="w-full p-2 border rounded-xl"
             />
-            <button
-              onClick={toggleSearchBar}
-              className="mt-2 p-2 bg-gray-200 rounded-md"
-            >
-              Close
-            </button>
+            <div className="VStack p-2">
+              <p className="Grey ">Top hits</p>
+              <div className="HStack gap-4 p-4 text-black">
+                <p>Hit1</p>
+                <p>Hit2</p>
+                <p>Hit3</p>
+              </div>
+            </div>
+            <div className="Herizontal-line bg-black opacity-30"></div>
+            <div className="VStack p-2">
+              <p className="Grey ">Suggestions</p>
+              <div className="VStack gap-4 p-4 text-black">
+                <p>Result1</p>
+                <p>Result1</p>
+                <p>Result1</p>
+              </div>
+            </div>
+            {/* suggestions */}
           </div>
         )}
       </div>
-
+      
       <div
         id="safe-area"
-        className="-z-20 fixed top-0 bottom-0 left-0 right-0 overflow-hidden bg-black"
+        className="-z-10 fixed top-0 bottom-0 left-0 right-0 overflow-hidden "
         // onClick={toggleSafeArea}
       >
         <div
           id="panel"
-          className="HStack lg:VStack rounded-lg gap-1 p-4 m-4 w-1/5 lg:top-0 bottom-0 lg:left-0 lg:right-0 absolute -z-10 System-background Label"
+          className="hidden VStack lg:VStack rounded-lg gap-1 p-4 lg:top-0 bottom-0 lg:left-0 lg:right-0 absolute -z-10  text-black"
+          style={{
+            width: "18%",
+          }}
         >
-          <div className="HStack lg:w-3/5 justify-between">
-            <button
-              type="button"
-              onClick={toggleSafeArea}
-              className="hidden lg:flex z-50 w-14 h-14 Label HStack text-left rounded-xl p-4 gap-2 hover:System-background-secondary"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="w-full h-full"
+          <div id="PrimaryPanel" className=" VStack m-2 gap-4">
+            <div className="HStack justify-between items-center">
+              <Link href="/" className="hover:no-underline HStack gap-3 p-2">
+                <p className="Ocean-blue text-xl Title">Atomic</p>
+              </Link>
+              <div
+                onClick={toggleSafeArea}
+                className="p-2 rounded-md  hover:System-background-blue"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
-                />
-              </svg>
-            </button>
-            <button
-              type="button"
-              onClick={toggleSearchBar}
-              className=" z-50 w-14 h-14 Label HStack text-left rounded-xl p-4 gap-2 hover:System-background-secondary"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                />
-              </svg>
-            </button>
-          </div>
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>display_fill</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Device"
+                      transform="translate(-720.000000, -240.000000)"
+                    >
+                      <g
+                        id="display_fill"
+                        transform="translate(720.000000, 240.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M19,4 C20.6569,4 22,5.34315 22,7 L22,17 C22,18.6569 20.6569,20 19,20 L5,20 C3.34315,20 2,18.6569 2,17 L2,7 C2,5.34315 3.34315,4 5,4 L19,4 Z M10.7071,8.29289 C10.3466385,7.93241 9.77939633,7.90468077 9.3870988,8.20970231 L9.29289,8.29289 L6.29289,11.2929 C5.90237,11.6834 5.90237,12.3166 6.29289,12.7071 C6.65337923,13.0675615 7.22060645,13.0952893 7.61290152,12.7902834 L7.70711,12.7071 L10.7071,9.70711 C11.0976,9.31658 11.0976,8.68342 10.7071,8.29289 Z M6.29289,7.29289 L5.29289,8.29289 C4.90237,8.68342 4.90237,9.31658 5.29289,9.70711 C5.68342,10.0976 6.31658,10.0976 6.70711,9.70711 L7.70711,8.70711 C8.09763,8.31658 8.09763,7.68342 7.70711,7.29289 C7.31658,6.90237 6.68342,6.90237 6.29289,7.29289 Z"
+                          id="形状"
+                          fill={"#636366FF"}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+            </div>
 
-          <div className="hidden lg:block Herizontal-line w-3/5"> </div>
-          <Link
-            href="/"
-            className="lg:w-3/5 h-14 Label HStack text-left rounded-xl p-4 gap-2 hover:System-background-secondary"
-          >
-            Home
-          </Link>
-          <Link
-            href="/subscription"
-            className="hidden lg:flex lg:w-3/5 h-14 Label HStack text-left rounded-xl p-4 gap-2 hover:System-background-secondary"
-          >
-            Supscriptions
-          </Link>
-          <div className=" hidden lg:block Herizontal-line w-3/5"></div>
-          <p className="hidden  lg:flex text-sm Grey-2 w-3/5  HStack text-left rounded-xl p-2 ">
-            Yours
-          </p>
-          <Link
-            href="/upload"
-            className="lg:w-3/5 h-14 Label HStack text-left rounded-xl p-4 gap-2 hover:System-background-secondary"
-          >
-            Create new
-          </Link>
-          <Link
-            href="/myvideo"
-            className="hidden  lg:flex lg:w-3/5 h-14 Label HStack text-left rounded-xl p-4 gap-2 hover:System-background-secondary"
-          >
-            Your videos
-          </Link>
-          <Link
-            href="/subscriber"
-            className=" lg:w-3/5 h-14 Label HStack text-left rounded-xl p-4 gap-2 hover:System-background-secondary"
-          >
-            Subscriber
-          </Link>
+            <Link
+              href="/"
+              className={`HStack gap-3 items-center p-4 hover:System-background-blue  hover:no-underline  rounded-lg ${
+                router.pathname === "/" ? "active" : ""
+              }`}
+            >
+              <div className="w-1/5 VStack justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>chart_line_line</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Business"
+                      transform="translate(-240.000000, 0.000000)"
+                      fill-rule="nonzero"
+                    >
+                      <g
+                        id="chart_line_line"
+                        transform="translate(240.000000, 0.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M4,4 C4.51283143,4 4.93550653,4.38604429 4.9932722,4.88337975 L5,5 L5,18 L20,18 C20.5523,18 21,18.4477 21,19 C21,19.51285 20.613973,19.9355092 20.1166239,19.9932725 L20,20 L4,20 C3.48716857,20 3.06449347,19.613973 3.0067278,19.1166239 L3,19 L3,5 C3,4.44772 3.44772,4 4,4 Z M20.1935,6.81813 C21.0933,6.81813 21.5439,7.90606 20.9076,8.54231 L15.3386,14.1114 C14.909,14.541 14.2125,14.541 13.7829,14.1114 L11.0252,11.3537 L7.48969,14.8892 C7.09916,15.2797 6.466,15.2797 6.07547,14.8892 C5.68495,14.4987 5.68495,13.8655 6.07547,13.475 L10.2474,9.30305 C10.677,8.87347 11.3735,8.87348 11.803,9.30305 L14.5608,12.0608 L17.8034,8.81813 L17.3892,8.81813 C16.8369,8.81813 16.3892,8.37041 16.3892,7.81813 C16.3892,7.26584 16.8369,6.81813 17.3892,6.81813 L20.1935,6.81813 Z"
+                          id="形状"
+                          // fill="#636366FF"
+                          className={`Grey-2 ${
+                            router.pathname === "/" ? "active" : ""
+                          }`}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="w-4/5">
+                <p
+                  className={`text-md Sub-title Grey-2${
+                    router.pathname === "/" ? "active" : ""
+                  }`}
+                >
+                  Home
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/trend"
+              className={`HStack gap-3 items-center p-4 hover:System-background-blue   hover:no-underline  rounded-lg ${
+                router.pathname === "/trend" ? "active" : ""
+              }`}
+            >
+              <div className="w-1/5 VStack justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>chart_line_line</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Business"
+                      transform="translate(-240.000000, 0.000000)"
+                      fill-rule="nonzero"
+                    >
+                      <g
+                        id="chart_line_line"
+                        transform="translate(240.000000, 0.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M4,4 C4.51283143,4 4.93550653,4.38604429 4.9932722,4.88337975 L5,5 L5,18 L20,18 C20.5523,18 21,18.4477 21,19 C21,19.51285 20.613973,19.9355092 20.1166239,19.9932725 L20,20 L4,20 C3.48716857,20 3.06449347,19.613973 3.0067278,19.1166239 L3,19 L3,5 C3,4.44772 3.44772,4 4,4 Z M20.1935,6.81813 C21.0933,6.81813 21.5439,7.90606 20.9076,8.54231 L15.3386,14.1114 C14.909,14.541 14.2125,14.541 13.7829,14.1114 L11.0252,11.3537 L7.48969,14.8892 C7.09916,15.2797 6.466,15.2797 6.07547,14.8892 C5.68495,14.4987 5.68495,13.8655 6.07547,13.475 L10.2474,9.30305 C10.677,8.87347 11.3735,8.87348 11.803,9.30305 L14.5608,12.0608 L17.8034,8.81813 L17.3892,8.81813 C16.8369,8.81813 16.3892,8.37041 16.3892,7.81813 C16.3892,7.26584 16.8369,6.81813 17.3892,6.81813 L20.1935,6.81813 Z"
+                          id="形状"
+                          // fill="#636366FF"
+                          className={`Grey-2 ${
+                            router.pathname === "/trend" ? "active" : ""
+                          }`}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="w-4/5">
+                <p
+                  className={`text-md Sub-title Grey-2${
+                    router.pathname === "/trend" ? "active" : ""
+                  }`}
+                >
+                  Trending
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/subscription"
+              className={`HStack gap-3 hover:System-background-blue  items-center p-4  hover:no-underline  rounded-lg ${
+                router.pathname === "/subscription" ? "active" : ""
+              }`}
+            >
+              <div className="w-1/5 VStack justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>chart_line_line</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Business"
+                      transform="translate(-240.000000, 0.000000)"
+                      fill-rule="nonzero"
+                    >
+                      <g
+                        id="chart_line_line"
+                        transform="translate(240.000000, 0.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M4,4 C4.51283143,4 4.93550653,4.38604429 4.9932722,4.88337975 L5,5 L5,18 L20,18 C20.5523,18 21,18.4477 21,19 C21,19.51285 20.613973,19.9355092 20.1166239,19.9932725 L20,20 L4,20 C3.48716857,20 3.06449347,19.613973 3.0067278,19.1166239 L3,19 L3,5 C3,4.44772 3.44772,4 4,4 Z M20.1935,6.81813 C21.0933,6.81813 21.5439,7.90606 20.9076,8.54231 L15.3386,14.1114 C14.909,14.541 14.2125,14.541 13.7829,14.1114 L11.0252,11.3537 L7.48969,14.8892 C7.09916,15.2797 6.466,15.2797 6.07547,14.8892 C5.68495,14.4987 5.68495,13.8655 6.07547,13.475 L10.2474,9.30305 C10.677,8.87347 11.3735,8.87348 11.803,9.30305 L14.5608,12.0608 L17.8034,8.81813 L17.3892,8.81813 C16.8369,8.81813 16.3892,8.37041 16.3892,7.81813 C16.3892,7.26584 16.8369,6.81813 17.3892,6.81813 L20.1935,6.81813 Z"
+                          id="形状"
+                          // fill="#636366FF"
+                          className={`Grey-2 ${
+                            router.pathname === "/subscription" ? "active" : ""
+                          }`}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="w-4/5">
+                <p
+                  className={`text-md Sub-title Grey-2${
+                    router.pathname === "/subscription" ? "active" : ""
+                  }`}
+                >
+                  Subscriptions
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/myvideo"
+              className={`HStack gap-3 hover:System-background-blue  items-center p-4  hover:no-underline  rounded-lg ${
+                router.pathname === "/myvideo" ? "active" : ""
+              }`}
+            >
+              <div className="w-1/5 VStack justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>chart_line_line</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Business"
+                      transform="translate(-240.000000, 0.000000)"
+                      fill-rule="nonzero"
+                    >
+                      <g
+                        id="chart_line_line"
+                        transform="translate(240.000000, 0.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M4,4 C4.51283143,4 4.93550653,4.38604429 4.9932722,4.88337975 L5,5 L5,18 L20,18 C20.5523,18 21,18.4477 21,19 C21,19.51285 20.613973,19.9355092 20.1166239,19.9932725 L20,20 L4,20 C3.48716857,20 3.06449347,19.613973 3.0067278,19.1166239 L3,19 L3,5 C3,4.44772 3.44772,4 4,4 Z M20.1935,6.81813 C21.0933,6.81813 21.5439,7.90606 20.9076,8.54231 L15.3386,14.1114 C14.909,14.541 14.2125,14.541 13.7829,14.1114 L11.0252,11.3537 L7.48969,14.8892 C7.09916,15.2797 6.466,15.2797 6.07547,14.8892 C5.68495,14.4987 5.68495,13.8655 6.07547,13.475 L10.2474,9.30305 C10.677,8.87347 11.3735,8.87348 11.803,9.30305 L14.5608,12.0608 L17.8034,8.81813 L17.3892,8.81813 C16.8369,8.81813 16.3892,8.37041 16.3892,7.81813 C16.3892,7.26584 16.8369,6.81813 17.3892,6.81813 L20.1935,6.81813 Z"
+                          id="形状"
+                          // fill="#636366FF"
+                          className={`Grey-2 ${
+                            router.pathname === "/myvideo" ? "active" : ""
+                          }`}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="w-4/5">
+                <p
+                  className={`text-md Sub-title Grey-2${
+                    router.pathname === "/myvideo" ? "active" : ""
+                  }`}
+                >
+                  My videos
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/upload"
+              className={`HStack gap-3  hover:System-background-blue items-center p-4  hover:no-underline  rounded-lg ${
+                router.pathname === "/upload" ? "active" : ""
+              }`}
+            >
+              <div className="w-1/5 VStack justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>chart_line_line</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Business"
+                      transform="translate(-240.000000, 0.000000)"
+                      fill-rule="nonzero"
+                    >
+                      <g
+                        id="chart_line_line"
+                        transform="translate(240.000000, 0.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M4,4 C4.51283143,4 4.93550653,4.38604429 4.9932722,4.88337975 L5,5 L5,18 L20,18 C20.5523,18 21,18.4477 21,19 C21,19.51285 20.613973,19.9355092 20.1166239,19.9932725 L20,20 L4,20 C3.48716857,20 3.06449347,19.613973 3.0067278,19.1166239 L3,19 L3,5 C3,4.44772 3.44772,4 4,4 Z M20.1935,6.81813 C21.0933,6.81813 21.5439,7.90606 20.9076,8.54231 L15.3386,14.1114 C14.909,14.541 14.2125,14.541 13.7829,14.1114 L11.0252,11.3537 L7.48969,14.8892 C7.09916,15.2797 6.466,15.2797 6.07547,14.8892 C5.68495,14.4987 5.68495,13.8655 6.07547,13.475 L10.2474,9.30305 C10.677,8.87347 11.3735,8.87348 11.803,9.30305 L14.5608,12.0608 L17.8034,8.81813 L17.3892,8.81813 C16.8369,8.81813 16.3892,8.37041 16.3892,7.81813 C16.3892,7.26584 16.8369,6.81813 17.3892,6.81813 L20.1935,6.81813 Z"
+                          id="形状"
+                          // fill="#636366FF"
+                          className={`Grey-2 ${
+                            router.pathname === "/upload" ? "active" : ""
+                          }`}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="w-4/5">
+                <p
+                  className={`text-md Sub-title Grey-2${
+                    router.pathname === "/upload" ? "active" : ""
+                  }`}
+                >
+                  Create new
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/subscriber"
+              className={`HStack gap-3  hover:System-background-blue items-center p-4  hover:no-underline  rounded-lg ${
+                router.pathname === "/subscriber" ? "active" : ""
+              }`}
+            >
+              <div className="w-1/5 VStack justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>chart_line_line</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Business"
+                      transform="translate(-240.000000, 0.000000)"
+                      fill-rule="nonzero"
+                    >
+                      <g
+                        id="chart_line_line"
+                        transform="translate(240.000000, 0.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M4,4 C4.51283143,4 4.93550653,4.38604429 4.9932722,4.88337975 L5,5 L5,18 L20,18 C20.5523,18 21,18.4477 21,19 C21,19.51285 20.613973,19.9355092 20.1166239,19.9932725 L20,20 L4,20 C3.48716857,20 3.06449347,19.613973 3.0067278,19.1166239 L3,19 L3,5 C3,4.44772 3.44772,4 4,4 Z M20.1935,6.81813 C21.0933,6.81813 21.5439,7.90606 20.9076,8.54231 L15.3386,14.1114 C14.909,14.541 14.2125,14.541 13.7829,14.1114 L11.0252,11.3537 L7.48969,14.8892 C7.09916,15.2797 6.466,15.2797 6.07547,14.8892 C5.68495,14.4987 5.68495,13.8655 6.07547,13.475 L10.2474,9.30305 C10.677,8.87347 11.3735,8.87348 11.803,9.30305 L14.5608,12.0608 L17.8034,8.81813 L17.3892,8.81813 C16.8369,8.81813 16.3892,8.37041 16.3892,7.81813 C16.3892,7.26584 16.8369,6.81813 17.3892,6.81813 L20.1935,6.81813 Z"
+                          id="形状"
+                          // fill="#636366FF"
+                          className={`Grey-2 ${
+                            router.pathname === "/subscriber" ? "active" : ""
+                          }`}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="w-4/5">
+                <p
+                  className={`text-md Sub-title Grey-2${
+                    router.pathname === "/subscriber" ? "active" : ""
+                  }`}
+                >
+                  Subscribers
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/newtab"
+              className={`HStack gap-3 hover:System-background-blue  items-center p-4  hover:no-underline  rounded-lg ${
+                router.pathname === "/newtab" ? "active" : ""
+              }`}
+            >
+              <div className="w-1/5 VStack justify-center">
+                <svg
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>chart_line_line</title>
+                  <g
+                    id="页面-1"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Business"
+                      transform="translate(-240.000000, 0.000000)"
+                      fill-rule="nonzero"
+                    >
+                      <g
+                        id="chart_line_line"
+                        transform="translate(240.000000, 0.000000)"
+                      >
+                        <path
+                          d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+                          id="MingCute"
+                          fill-rule="nonzero"
+                        ></path>
+                        <path
+                          d="M4,4 C4.51283143,4 4.93550653,4.38604429 4.9932722,4.88337975 L5,5 L5,18 L20,18 C20.5523,18 21,18.4477 21,19 C21,19.51285 20.613973,19.9355092 20.1166239,19.9932725 L20,20 L4,20 C3.48716857,20 3.06449347,19.613973 3.0067278,19.1166239 L3,19 L3,5 C3,4.44772 3.44772,4 4,4 Z M20.1935,6.81813 C21.0933,6.81813 21.5439,7.90606 20.9076,8.54231 L15.3386,14.1114 C14.909,14.541 14.2125,14.541 13.7829,14.1114 L11.0252,11.3537 L7.48969,14.8892 C7.09916,15.2797 6.466,15.2797 6.07547,14.8892 C5.68495,14.4987 5.68495,13.8655 6.07547,13.475 L10.2474,9.30305 C10.677,8.87347 11.3735,8.87348 11.803,9.30305 L14.5608,12.0608 L17.8034,8.81813 L17.3892,8.81813 C16.8369,8.81813 16.3892,8.37041 16.3892,7.81813 C16.3892,7.26584 16.8369,6.81813 17.3892,6.81813 L20.1935,6.81813 Z"
+                          id="形状"
+                          // fill="#636366FF"
+                          className={`Grey-2 ${
+                            router.pathname === "/newtab" ? "active" : ""
+                          }`}
+                        ></path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="w-4/5">
+                <p
+                  className={`text-md Sub-title Grey-2${
+                    router.pathname === "/newtab" ? "active" : ""
+                  }`}
+                >
+                  New tab
+                </p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </>
