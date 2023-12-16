@@ -9,7 +9,7 @@ import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { BiSolidVideos } from "react-icons/bi";
 import { BiSolidVideoPlus } from "react-icons/bi";
-
+import { HiMiniWallet } from "react-icons/hi2";
 import { useState } from "react";
 import Link from "next/link";
 import { isAbsolute } from "path";
@@ -18,7 +18,6 @@ interface Props {
 }
 
 export function DefaultLayout({ children }: Props) {
-
   const signedIn = useAuthStore((store) => store.signedIn);
   const accountId = useAuthStore((store) => store.accountId);
   const accountProfile = useAuthStore((store) => store.account);
@@ -40,7 +39,7 @@ export function DefaultLayout({ children }: Props) {
   };
 
   const navigateToProfile = () => {
-    window.location.href = '/profile';
+    window.location.href = "/profile";
   };
 
   const toggleSafeArea = () => {
@@ -358,12 +357,12 @@ export function DefaultLayout({ children }: Props) {
                   <div
                     className="VStack rounded-lg p-3 System-background-ocean-blue text-white hover: System-background-secondary"
                     style={{
-                      height: isDropdownOpen ? "300px" : "47px",
+                      height: isDropdownOpen ? "375px" : "47px",
                       transition: "all 0.5s ease",
                       overflow: "hidden",
                     }}
                   >
-                    <div className="HStack gap-2">
+                    <div className="HStack gap-2 items-center justify-center">
                       <img
                         src="{accountProfile}"
                         className="w-6 h-6 rounded-sm"
@@ -386,11 +385,29 @@ export function DefaultLayout({ children }: Props) {
                     </div>
                     <div className="">
                       <div className=" VStack mt-4">
+                        <div className="text-white HStack text-left rounded-2xl pl-2 pr-2 p-2 System-background-blue">
+                          <div className="HStack justify-between gap-4 w-full">
+                            <div className="HStack items-center gap-2">
+                              <HiMiniWallet className=" w-5 h-5 text-white" />
+                              Wallet
+                            </div>
+                            <div className="HStack items-center">
+                              <button
+                                type="button"
+                                onClick={navigateToProfile}
+                                className="Button-primary p-2"
+                              >
+                                Connect
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                       
                         <button
                           type="button"
                           onClick={navigateToProfile}
                           // onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
+                          className="text-white HStack text-left mt-2 mb-2 rounded-2xl p-4 gap-2 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -510,9 +527,7 @@ export function DefaultLayout({ children }: Props) {
           {/* ========================== Conten ========================== */}
 
           <div className="z-50 VStack bg-white h-full">
-            <div className="bg-red-500 w-full ">
-              
-            </div>
+            <div className="bg-red-500 w-full "></div>
             {children}
           </div>
         </div>
@@ -520,4 +535,3 @@ export function DefaultLayout({ children }: Props) {
     </>
   );
 }
-
