@@ -7,14 +7,14 @@ const MyVideoPage: NextPageWithLayout = () => {
       name: "영화 'Wonka'(2023) 예고편(trailer)으로 영어 공부하기",
       date: "4 days ago",
       channelName: "Yo Hippy",
-      thumbnail: "https://i.ytimg.com/vi/wYmtRhKvmVE/maxresdefault.jpg",
+      thumbnail: "https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png",
       url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
     },
     {
       name: "Wonka (2023)",
       date: "4 days ago",
       channelName: "Yo Hippy",
-      thumbnail: "https://i.ytimg.com/vi/wYmtRhKvmVE/maxresdefault.jpg",
+      thumbnail: "https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png",
       url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
     },
   ];
@@ -40,7 +40,7 @@ const MyVideoPage: NextPageWithLayout = () => {
               <p className="Grey">4 days ago</p>
               <div className="HStack items-center gap-2 mt-4">
                 <img
-                  className="h-10 w-10"
+                  className="h-10 w-10 rounded-full"
                   src= { detail[i].thumbnail }
                   alt="owner"
                 />

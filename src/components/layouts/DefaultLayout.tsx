@@ -146,7 +146,7 @@ export function DefaultLayout({ children }: Props) {
 
                       <button
                         type="button"
-                        onClick={logOut}
+                        // onClick={logOut}
                         className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
                       >
                         <svg
