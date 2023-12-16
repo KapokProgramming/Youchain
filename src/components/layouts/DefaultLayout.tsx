@@ -18,6 +18,7 @@ interface Props {
 }
 
 export function DefaultLayout({ children }: Props) {
+
   const signedIn = useAuthStore((store) => store.signedIn);
   const accountId = useAuthStore((store) => store.accountId);
   const accountProfile = useAuthStore((store) => store.account);
@@ -36,6 +37,10 @@ export function DefaultLayout({ children }: Props) {
   // Function to close dropdown
   const closeDropdown = () => {
     setDropdownOpen(false);
+  };
+
+  const navigateToProfile = () => {
+    window.location.href = '/profile';
   };
 
   const toggleSafeArea = () => {
@@ -383,6 +388,7 @@ export function DefaultLayout({ children }: Props) {
                       <div className=" VStack mt-4">
                         <button
                           type="button"
+                          onClick={navigateToProfile}
                           // onClick={logOut}
                           className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
                         >
@@ -514,3 +520,4 @@ export function DefaultLayout({ children }: Props) {
     </>
   );
 }
+
