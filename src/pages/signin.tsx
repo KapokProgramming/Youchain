@@ -67,7 +67,7 @@ const SignInPage: NextPageWithLayout = () => {
           href="/"
           className=" absolute top-5 left-5 p-2 rounded-lg System-background-blue"
         >
-          {/* <IoIosArrowBack className="Ocean-blue w-6 h-6 hover:opacity-60" /> */} H
+          <IoIosArrowBack className="Ocean-blue w-6 h-6 hover:opacity-60" />
         </Link>
 
         <div className="HStack">
