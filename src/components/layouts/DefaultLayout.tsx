@@ -42,7 +42,10 @@ export function DefaultLayout({ children }: Props) {
   };
 
   const navigateToProfile = () => {
-    window.location.href = "/profile";
+    router.push({
+      pathname: '/profile'
+
+    });
   };
 
   const toggleSafeArea = () => {
