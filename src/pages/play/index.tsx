@@ -1,7 +1,62 @@
 import { useDefaultLayout } from "@/hooks/useLayout";
 import type { NextPageWithLayout } from "@/utils/types";
+import { BiSolidLike } from "react-icons/bi";
+import { BiSolidDislike } from "react-icons/bi";
+import { CgGitFork } from "react-icons/cg";
 import { useState } from "react";
+import { Router } from "next/router";
 const PlayPage: NextPageWithLayout = () => {
+  const [likeCount, setLikeCount] = useState(128);
+  const [dislikeCount, setDislikeCount] = useState(12);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isDisliked, setIsDisliked] = useState(false);
+  const [forkCount, setForkCount] = useState(3);
+  const [isFork, setIsFork] = useState(false);
+
+  const fork = () => {
+    if (!isFork) {
+      setForkCount(forkCount + 1);
+      setIsFork(true);
+      window.location.href = "/upload";
+    } else {
+      setForkCount(forkCount - 1);
+      setIsFork(false);
+    }
+  };
+
+  const toggleLike = () => {
+    if (!isLiked) {
+      setLikeCount(likeCount + 1);
+      setIsLiked(true);
+
+      // If the video was disliked before, decrement dislike count
+      if (isDisliked) {
+        setDislikeCount(dislikeCount - 1);
+        setIsDisliked(false);
+      }
+    } else {
+      setLikeCount(likeCount - 1);
+      setIsLiked(false);
+    }
+
+    console.log("isLiked:", isLiked);
+  };
+
+  const toggleDislike = () => {
+    if (!isDisliked) {
+      setDislikeCount(dislikeCount + 1);
+      setIsDisliked(true);
+
+      // If the video was liked before, decrement like count
+      if (isLiked) {
+        setLikeCount(likeCount - 1);
+        setIsLiked(false);
+      }
+    } else {
+      setDislikeCount(dislikeCount - 1);
+      setIsDisliked(false);
+    }
+  };
   const AccDetails = {
     name: "Elon Musk",
     subscribers: "10,000,000",
@@ -241,42 +296,58 @@ const PlayPage: NextPageWithLayout = () => {
             controls={true}
           ></video>
         </div>
-        <div className="HStack justify-between items-center">
-          <p className="Title text-xl">{videos[0].name}</p>
-          <div className="HStack items-center text-white System-background-ocean-blue Circle">
-            <p className="p-4">Like</p>
-            <p className="p-4">Say</p>
-            <p className="p-4">Hippy</p>
-            <p className="p-4">React</p>
-          </div>
-        </div>
-        <div className="HStack">12,234,123 views</div>
-        <div> {displayVideoDetails(videos[0])}</div>
-        <div className="HStack">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-            className="w-10 h-10"
-            alt=""
-          />
+        <div className="HStack justify-between mt-2 mb-2 items-start">
           <div className="VStack">
-            <p>Yo HippyScience</p>
-            <p>128k follower</p>
+            <p className="Title text-xl">{videos[0].name}</p>
+
+            <div className="HStack">12,234,123 views</div>
           </div>
-          <button className="Button-primary pl-4 pr-4 Circle">Follow</button>
+          <div className="HStack gap-2 pr-2">
+            <div className="HStack items-center cursor-pointer System-background-ocean-blue Circle">
+              <div
+                className="HStack items-center hover:brightness-125 cursor-pointer gap-2 text-white System-background-ocean-blue pl-4 pr-4 Circle"
+                onClick={toggleLike}
+              >
+                <p className="p-2">
+                  <BiSolidLike
+                    className={` ${isLiked ? "text-red-500" : "text-white"}`}
+                  />
+                </p>
+                <p className={` ${isLiked ? "text-red-500" : "text-white"}`}>
+                  {" "}
+                  {likeCount}
+                </p>
+              </div>
+
+              <div
+                className="HStack items-center hover:brightness-125 cursor-pointer gap-2 text-white System-background-ocean-blue pl-4 pr-4 Circle"
+                onClick={toggleDislike}
+              >
+                <p className="p-2">
+                  <BiSolidDislike
+                    className={` ${isDisliked ? "text-red-500" : "text-white"}`}
+                  />
+                </p>
+                <p className={` ${isDisliked ? "text-red-500" : "text-white"}`}>
+                  {" "}
+                  {dislikeCount}
+                </p>
+              </div>
+            </div>
+
+            <div className="HStack items-center hover:brightness-125 cursor-pointer gap-2 text-white System-background-ocean-blue pl-4 pr-4 Circle"
+            onClick={fork}
+        
+            >
+              <p className="p-2">
+                <CgGitFork className={` ${isFork ? "text-red-500" : "text-white"}`} />
+              </p>
+              <p className={` ${isFork ? "text-red-500" : "text-white"}`}> {forkCount}</p>
+            </div>
+          </div>
         </div>
-        <div className=" overflow-y-scroll gap-4 HStack max-w-3xl min-w-3xl">
-          {displayVideoList(AccDetails)}
-        </div>
-        <div className="VStack">
-          Comment
-          <textarea
-            name=""
-            className="System-background-blue rounded-md"
-            id=""
-            cols="15"
-            rows="5"
-            placeholder="Comment here bro!"
-          ></textarea>
+        <div className="VStack gap-4">
+          <div> {displayVideoDetails(videos[0])}</div>
           <div className="HStack">
             <img
               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -284,9 +355,34 @@ const PlayPage: NextPageWithLayout = () => {
               alt=""
             />
             <div className="VStack">
-              <p>Yoza555</p>
-            <p>{videos[0].comment[0]}</p>
-
+              <p>Yo HippyScience</p>
+              <p>128k follower</p>
+            </div>
+            <button className="Button-primary pl-4 pr-4 Circle">Follow</button>
+          </div>
+          <div className=" overflow-y-scroll gap-4 HStack max-w-3xl min-w-3xl">
+            {displayVideoList(AccDetails)}
+          </div>
+          <div className="VStack">
+            Comment
+            <textarea
+              name=""
+              className="System-background-blue rounded-md"
+              id=""
+              cols="15"
+              rows="5"
+              placeholder="Comment here bro!"
+            ></textarea>
+            <div className="HStack">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                className="w-10 h-10"
+                alt=""
+              />
+              <div className="VStack">
+                <p>Yoza555</p>
+                <p>{videos[0].comment[0]}</p>
+              </div>
             </div>
           </div>
         </div>
