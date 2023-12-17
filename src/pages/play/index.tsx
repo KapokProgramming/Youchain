@@ -1,6 +1,7 @@
 import { useDefaultLayout } from "@/hooks/useLayout";
 import type { NextPageWithLayout } from "@/utils/types";
 import { useState } from "react";
+
 const PlayPage: NextPageWithLayout = () => {
   const AccDetails = {
     name: "Elon Musk",
@@ -179,15 +180,16 @@ const PlayPage: NextPageWithLayout = () => {
     const details = [];
     for (let i = 0; i < AccDetails.videos.length; i++) {
       details.push(
-        <div className=" rounded-lg overflow-hidden w-full h-54 flex flex-col object-contain bg-gray-200 hover:bg-gray-500">
+        <div className=" rounded-md video bg-gray-200 hover:bg-gray-500">
           <iframe
             src={AccDetails.videos[i].url}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            className="w-full h-40 rounded-md"
           />
-          <p className="text-black w-full pl-2 whitespace-nowrap mt-2">
+          <p className="text-black w-full pl-2 whitespace-nowrap mt-2 overflow-hidden">
             {AccDetails.videos[i].name}
           </p>
-          <div className="pl-2"> {AccDetails.videos[i].date}</div>
+          <div className="pl-2 video-width"> {AccDetails.videos[i].date}</div>
         </div>
       );
     }
@@ -201,7 +203,7 @@ const PlayPage: NextPageWithLayout = () => {
         : video.description;
 
     return (
-      <div className="rounded-lg overflow-hidden w-full h-54 flex flex-col object-contain bg-gray-200 hover:bg-gray-500">
+      <div className="rounded-lg overflow-hidden w-7xl h-54 flex flex-col object-contain bg-gray-200 hover:bg-gray-500 whitespace-nowrap">
         <div className="pl-2">
           {showFullDescription ? video.description : truncatedDescription}
         </div>
@@ -264,7 +266,7 @@ const PlayPage: NextPageWithLayout = () => {
           </div>
           <button className="Button-primary pl-4 pr-4 Circle">Follow</button>
         </div>
-        <div className=" overflow-y-scroll gap-4 HStack max-w-3xl min-w-3xl">
+        <div className=" overflow-y-scroll gap-4 HStack scrollbar-hide">
           {displayVideoList(AccDetails)}
         </div>
         <div className="VStack">

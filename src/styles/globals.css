@@ -182,4 +182,18 @@ a:hover {
     background-color: #ecefff80;
     fill: #571de3;
   }
+  .video {
+    width: 250px;
+    height: 225px;
+  }
+  .video-width {
+    width: 250px;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+  }
 }
