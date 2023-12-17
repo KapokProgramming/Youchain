@@ -43,7 +43,7 @@ export function DefaultLayout({ children }: Props) {
 
   const navigateToProfile = () => {
     router.push({
-      pathname: '/profile'
+      pathname: `/profile/${accountId}`
 
     });
   };

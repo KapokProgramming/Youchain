@@ -1,10 +1,15 @@
 import { ComponentWrapperPage } from "@/components/ComponentWrapperPage";
 import { useBosComponents } from "@/hooks/useBosComponents";
 import { useDefaultLayout } from "@/hooks/useLayout";
+import { useAuthStore } from "@/stores/auth";
 import type { NextPageWithLayout } from "@/utils/types";
+import { useRouter } from "next/router";
 
 const ProfilePage: NextPageWithLayout = () => {
   const components = useBosComponents();
+  const router = useRouter()
+  const profile_id = router.query.id
+  // const accountId = useAuthStore((store) => store.accountId);
 
   const AccDetails = {
     name: "Elon Musk",
@@ -90,39 +95,16 @@ const ProfilePage: NextPageWithLayout = () => {
           placeholder="Search for videos"
         />
       </div>
-
-      <div className="w-full h-2/6 fixed mt-24 border-b-2 flex flex-row">
-        <div className="flex flex-row w-full h-full mt-6">
-          <div className="mt-6">
-            <ComponentWrapperPage
-              src={components.profileImage}
-              componentProps={{
-                style: { width: "6em", height: "2em" },
-                imageClassName:
-                  "rounded-full mt-6 align-middle items-center justify-center",
-              }}
-            />
-          </div>
-          <div className="flex flex-col ml-10 mt-24 w-2/4">
-            <p className="text-black font-bold text-7xl">{AccDetails.name}</p>
-            <p className="text-xl text-gray-400 flex ">
-              {AccDetails.subscribers} subscribers
-            </p>
-          </div>
-
-          <button className="w-32 h-12 m-auto bg-gray-500 rounded-md text-white font-bold  hover:bg-blue-500 ">
-            Edit Profile
-          </button>
-        </div>
+      <div>
+        <ComponentWrapperPage src={components.profileBanner} componentProps={ {accountId:profile_id} } />
       </div>
-
-      <div className="w-full h-full mt-96 fixed">
+      <div className="w-full h-full mt-2">
         <div className="flex flex-row w-full h-full mt-4">
-          <p className="text-black font-bold text-4xl ml-6 mt-6 fixed">
+          <p className="text-black font-bold text-4xl ml-6 mt-6 ">
             Videos
           </p>
-          <div className=" w-5/6 h-2/4 text-lg">
-            <div className="grid grid-cols-5 h-full w-full mt-20 ml-32 gap-6">
+          <div className=" w-5/6 h-5/6 text-lg">
+            <div className="grid grid-cols-4 h-full w-full mt-20 ml-32 gap-4">
               {displayVideoDetails(AccDetails)}
             </div>
           </div>
