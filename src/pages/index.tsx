@@ -1,6 +1,10 @@
+import { ComponentWrapperPage } from '@/components/ComponentWrapperPage';
+import { useBosComponents } from '@/hooks/useBosComponents';
 import { useDefaultLayout } from "@/hooks/useLayout";
 import type { NextPageWithLayout } from "@/utils/types";
 const HomePage: NextPageWithLayout = () => {
+  const components = useBosComponents();
+
   return (
     <>
       <div className="h-screen bg-white">
@@ -22,6 +26,7 @@ const HomePage: NextPageWithLayout = () => {
             + New animation! 2x smooth!
           </p>
         </div>
+      
       </div>
     </>
   );

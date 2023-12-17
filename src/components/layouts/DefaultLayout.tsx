@@ -13,6 +13,8 @@ import { HiMiniWallet } from "react-icons/hi2";
 import { useState } from "react";
 import Link from "next/link";
 import { isAbsolute } from "path";
+import { ComponentWrapperPage } from '@/components/ComponentWrapperPage';
+import { useBosComponents } from '@/hooks/useBosComponents';
 interface Props {
   children: ReactNode;
 }
@@ -27,6 +29,7 @@ export function DefaultLayout({ children }: Props) {
   const [isSafeAreaActive, setSafeAreaActive] = useState(true);
   const [isSearchBarVisible, setSearchBarVisible] = useState(false);
   const router = useRouter();
+  const components = useBosComponents();
 
   // Function to toggle dropdown visibility
   const toggleDropdown = () => {
@@ -339,7 +342,7 @@ export function DefaultLayout({ children }: Props) {
         </div>
         <div
           id="stage"
-          className="z-40 right-0 fixed h-screen overflow-hidden ${isSafeAreaActive ? '' : ''}"
+          className="z-0 right-0 fixed h-screen overflow-hidden ${isSafeAreaActive ? '' : ''}"
           style={{
             width: isSafeAreaActive ? "82%" : "95%",
             overflowY: "auto", // Add this line to enable vertical scrolling
@@ -363,10 +366,11 @@ export function DefaultLayout({ children }: Props) {
                     }}
                   >
                     <div className="HStack gap-2 items-center justify-center">
-                      <img
+                      {/* <img
                         src="{accountProfile}"
                         className="w-6 h-6 rounded-sm"
-                      />
+                      /> */}
+                      < ComponentWrapperPage src={components.profileImage}/>
                       <p>{accountId}</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -391,7 +395,8 @@ export function DefaultLayout({ children }: Props) {
                               <HiMiniWallet className=" w-5 h-5 text-white" />
                               Wallet
                             </div>
-                            <div className="HStack items-center">
+                            <ComponentWrapperPage src={components.loginWeb3} />
+                            {/* <div className="HStack items-center">
                               <button
                                 type="button"
                                 onClick={navigateToProfile}
@@ -399,7 +404,7 @@ export function DefaultLayout({ children }: Props) {
                               >
                                 Connect
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                        
@@ -526,8 +531,7 @@ export function DefaultLayout({ children }: Props) {
 
           {/* ========================== Conten ========================== */}
 
-          <div className="z-50 VStack bg-white h-full">
-            <div className="bg-red-500 w-full "></div>
+          <div className="VStack bg-white h-full z-30">
             {children}
           </div>
         </div>
