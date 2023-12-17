@@ -13,8 +13,8 @@ import { HiMiniWallet } from "react-icons/hi2";
 import { useState } from "react";
 import Link from "next/link";
 import { isAbsolute } from "path";
-import { ComponentWrapperPage } from '@/components/ComponentWrapperPage';
-import { useBosComponents } from '@/hooks/useBosComponents';
+import { ComponentWrapperPage } from "@/components/ComponentWrapperPage";
+import { useBosComponents } from "@/hooks/useBosComponents";
 interface Props {
   children: ReactNode;
 }
@@ -370,7 +370,10 @@ export function DefaultLayout({ children }: Props) {
                         src="{accountProfile}"
                         className="w-6 h-6 rounded-sm"
                       /> */}
-                      < ComponentWrapperPage src={components.profileImage}/>
+                      <ComponentWrapperPage
+                        src={components.profileImage}
+                        componentProps={{ imageClassName: "float-left w-24" }}
+                      />
                       <p>{accountId}</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -407,7 +410,7 @@ export function DefaultLayout({ children }: Props) {
                             </div> */}
                           </div>
                         </div>
-                       
+
                         <button
                           type="button"
                           onClick={navigateToProfile}
@@ -531,9 +534,7 @@ export function DefaultLayout({ children }: Props) {
 
           {/* ========================== Conten ========================== */}
 
-          <div className="VStack bg-white h-full z-30">
-            {children}
-          </div>
+          <div className="VStack bg-white h-full z-30">{children}</div>
         </div>
       </div>
     </>
