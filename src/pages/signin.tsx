@@ -1,22 +1,27 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import styled from "styled-components";
+import { IoIosArrowBack } from "react-icons/io";
+import Link from "next/link";
+import { Button } from "@/components/lib/Button";
+import { openToast } from "@/components/lib/Toast";
+import { useDefaultLayout } from "@/hooks/useLayout";
+import { useSignInRedirect } from "@/hooks/useSignInRedirect";
+import { useAuthStore } from "@/stores/auth";
+import type { NextPageWithLayout } from "@/utils/types";
 
-import { Button } from '@/components/lib/Button';
-import { openToast } from '@/components/lib/Toast';
-import { useDefaultLayout } from '@/hooks/useLayout';
-import { useSignInRedirect } from '@/hooks/useSignInRedirect';
-import { useAuthStore } from '@/stores/auth';
-import type { NextPageWithLayout } from '@/utils/types';
-
-import { handleCreateAccount } from '../utils/auth';
-import { isValidEmail } from '../utils/form-validation';
+import { handleCreateAccount } from "../utils/auth";
+import { isValidEmail } from "../utils/form-validation";
 
 const SignInPage: NextPageWithLayout = () => {
+  const { requestAuthentication } = useSignInRedirect();
+
   const { register, handleSubmit, setValue } = useForm();
   const router = useRouter();
-  const requestSignInWithWallet = useAuthStore((store) => store.requestSignInWithWallet);
+  const requestSignInWithWallet = useAuthStore(
+    (store) => store.requestSignInWithWallet
+  );
   const signedIn = useAuthStore((store) => store.signedIn);
   const { redirect } = useSignInRedirect();
 
@@ -30,108 +35,115 @@ const SignInPage: NextPageWithLayout = () => {
     if (!data.email) return;
 
     try {
-      const { publicKey, email } = await handleCreateAccount(null, data.email, true);
-      router.push(`/verify-email?publicKey=${publicKey}&email=${email}&isRecovery=true`);
+      const { publicKey, email } = await handleCreateAccount(
+        null,
+        data.email,
+        true
+      );
+      router.push(
+        `/verify-email?publicKey=${publicKey}&email=${email}&isRecovery=true`
+      );
     } catch (error: any) {
       console.log(error);
 
-      if (typeof error?.message === 'string') {
+      if (typeof error?.message === "string") {
         openToast({
-          type: 'ERROR',
+          type: "ERROR",
           title: error.message,
         });
       } else {
         openToast({
-          type: 'ERROR',
-          title: 'Something went wrong',
+          type: "ERROR",
+          title: "Something went wrong",
         });
       }
     }
   });
 
   return (
-    <StyledContainer>
-      <FormContainer onSubmit={onSubmit}>
-        <header>
-          <h1>{'Sign In'}</h1>
-          <p className="desc">Use this account to sign in everywhere on NEAR, no password required.</p>
-        </header>
+    <>
+      <div className="VStack h-screen Sub-title">
+        <Link
+          href="/"
+          className=" absolute top-5 left-5 p-2 rounded-lg System-background-blue"
+        >
+          <IoIosArrowBack className="Ocean-blue w-6 h-6 hover:opacity-60" />
+        </Link>
 
-        <InputContainer>
-          <label htmlFor="email">Email</label>
+        <div className="HStack">
+          <div className="VStack w-1/3 h-screen justify-center">
+            <form onSubmit={onSubmit}>
+              <div className="VStack gap-4 items-center justify-center align-middle">
+                <div className="VStack text-center gap-4">
+                  <p className="Title text-lg Ocean-blue">Atomic</p>
+                  <p className="text-md Title text-3xl Ocean-blue">
+                    Welcome Back
+                  </p>
+                </div>
+                <div className="VStack gap-2 w-2/3">
+                  <Button
+                    type="button"
+                    label="Continue with wallet?"
+                    variant="primary"
+                    onClick={requestSignInWithWallet}
+                    className="Button-secondary p-2 mt-5 mb-5"
+                  />
+                  <div className="flex justify-center items-center mt-4 mb-4">
+                    <div className="w-1/4 Herizontal-line System-background-ocean-blue"></div>
+                    <p className="w-2/4 text-xs text-center Ocean-blue opacity-70">
+                      OR LOGIN WITH EMAIL
+                    </p>
+                    <div className="w-1/4 Herizontal-line System-background-ocean-blue"></div>
+                  </div>
 
-          <input
-            {...register('email', {
-              required: 'Please enter a valid email address',
-            })}
-            onChange={(e) => {
-              setValue('email', e.target.value);
-              if (!isValidEmail(e.target.value)) return;
-            }}
-            placeholder="user_name@email.com"
-            type="email"
-            required
-          />
-        </InputContainer>
+                  <label htmlFor="email"></label>
 
-        <Button type="submit" label="Continue" variant="affirmative" onClick={onSubmit} />
-        <Button type="button" label="Continue with wallet" variant="primary" onClick={requestSignInWithWallet} />
-      </FormContainer>
-    </StyledContainer>
+                  <input
+                    {...register("email", {
+                      required: "Please enter a valid email address",
+                    })}
+                    onChange={(e) => {
+                      setValue("email", e.target.value);
+                      if (!isValidEmail(e.target.value)) return;
+                    }}
+                    placeholder="Email"
+                    type="email"
+                    className="System-background-blue rounded-md p-2"
+                    required
+                  />
+                  <Button
+                    type="submit"
+                    label="Log in"
+                    variant="affirmative"
+                    onClick={onSubmit}
+                    className=" Button-primary rounded-md p-2 mt-5"
+                  />
+                  <div className="Herizontal-line System-background-ocean-blue"></div>
+                  <div className="HStack gap-2 justify-center">
+                    <p className="">Don't have an account yet?</p>
+                    <a
+                      onClick={() => requestAuthentication(true)}
+                      className=" underline Ocean-blue pl-4"
+                    >
+                      Create account
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div className="w-2/3 System-background-blue h-screen flex items-center justify-center align-middle">
+            <img
+              src="https://drive.google.com/uc?export=view&id=1D0qKQb8249CnPe40Wh07u2YbPV99t7KG"
+              alt="Creator is here!"
+              className="w-4/5"
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
-SignInPage.getLayout = useDefaultLayout;
+// SignInPage.getLayout = useDefaultLayout;
 
 export default SignInPage;
-
-const StyledContainer = styled.div`
-  width: 100%;
-  height: calc(100vh - 66px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f2f1ea;
-  padding: 0 16px;
-`;
-
-const FormContainer = styled.form`
-  max-width: 450px;
-  width: 100%;
-  margin: 16px auto;
-  background-color: #ffffff;
-  padding: 16px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const InputContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  label {
-    font-size: 12px;
-    font-weight: 500;
-  }
-
-  input {
-    padding: 8px 12px;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    font-size: 14px;
-    margin-top: 4px;
-    min-height: 50px;
-    cursor: text;
-
-    &:focus {
-      outline: none;
-      border: 1px solid #e5e5e5;
-    }
-  }
-
-  .subText {
-    font-size: 12px;
-  }
-`;

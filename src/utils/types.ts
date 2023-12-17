@@ -32,6 +32,15 @@ type ProductionNetwork = {
   };
 };
 
+export type FirebaseConfig = {
+  apiKey: string;
+  authDomain: string;
+  projectId: string;
+  storageBucket: string;
+  messagingSenderId: string;
+  appId: string
+}
+
 // type DevelopmentNetwork = {
 //   networkId: 'localnet';
 //   viewAccountId: string;
