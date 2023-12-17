@@ -4,9 +4,10 @@ import { storage } from "@/components/lib/Firebase/index";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { PiUploadSimple } from "react-icons/pi";
 import { IoIosClose } from "react-icons/io";
-
-import { useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { uploadVideo } from "@/components/lib/Firebase/storage";
+import { useRouter } from "next/router";
 
 const UploadPage = () => {
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -14,6 +15,14 @@ const UploadPage = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState<string>("");
+
+  const searchParams = useRouter();
+  const { fork } = searchParams.query;
+
+  useEffect(() => {
+    console.log(fork);
+    // Additional logic related to the effect
+  }, [fork]); // Add dependencies if needed
 
   async function handleSubmitFile(file: File) {
     if (!file || !file.name.endsWith(".mp4")) {
@@ -120,8 +129,29 @@ const UploadPage = () => {
   return (
     <div className="VStack w-full h-full text-black Sub-title">
       <h1 className="Title mt-5 ml-3 font-bold text-4xl">Upload Your Video</h1>
+      {fork && (
+        <div className="p-2 rounded-md m-2 System-background-ocean-blue text-white HStack gap-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <g fill="none" fill-rule="evenodd">
+              <path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036c-.01-.003-.019 0-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01-.184-.092Z" />
+              <path
+                fill="#FFFF"
+                d="M1 10a5 5 0 0 1 5-5h6a5 5 0 0 1 0 10 1 1 0 1 1 0-2 3 3 0 1 0 0-6H6a3 3 0 0 0-.75 5.906 1 1 0 0 1-.5 1.936A5.002 5.002 0 0 1 1 10Zm11 1a3 3 0 1 0 0 6h6a3 3 0 0 0 .75-5.905 1 1 0 0 1 .5-1.937A5.002 5.002 0 0 1 18 19h-6a5 5 0 0 1 0-10 1 1 0 1 1 0 2Z"
+              />
+            </g>
+          </svg>
+          <p>Fork: {fork}</p>
+        </div>
+      )}
       <div className="HStack h-full">
+        
         <div className="VStack w-2/3 items-center">
+          
           <div
             className=" border-dashed border-2 w-4/5 m-10 border-blue-700 p-4 rounded-lg text-center flex flex-col items-center justify-center "
             onDragEnter={handleDragEnter}
@@ -188,8 +218,8 @@ const UploadPage = () => {
                 <textarea
                   name=""
                   id=""
-                  cols="30"
-                  rows="7"
+                  cols={30}
+                  rows={7}
                   className="p-2 rounded-md System-background-blue"
                   placeholder="lorem10"
                 ></textarea>
@@ -225,9 +255,7 @@ const UploadPage = () => {
             </div>
             <div className="w-fullitems-end text-right">
               {" "}
-              <button className=" p-2 Button-primary">
-                Done
-              </button>
+              <button className=" p-2 Button-primary">Done</button>
             </div>
           </div>
         </div>
