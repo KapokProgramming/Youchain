@@ -1,7 +1,27 @@
 import { useDefaultLayout } from "@/hooks/useLayout";
 import type { NextPageWithLayout } from "@/utils/types";
+import { comment } from "postcss";
 import { useState } from "react";
 const PlayPage: NextPageWithLayout = () => {
+  function commentLayout(id: number) {
+    const details = [];
+    const target = videos[id];
+    if(comment.length < 1) return details ;
+    for (let i = 0; i < target.comment.length; i++) {
+      details.push(
+        <div className="VStack">
+          <div className="HStack">
+            <div>users' profile</div>
+            <div className="VStack">
+              <p> {target.comment[i].user}</p>
+              <p> {target.comment[i].comment}</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return details;
+  }
   const AccDetails = {
     name: "Elon Musk",
     subscribers: "10,000,000",
@@ -13,7 +33,20 @@ const PlayPage: NextPageWithLayout = () => {
         thumbnail:
           "https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png",
         url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
-        comment: ["dwadawdawdawdw", "awdawdad3qee23e2"],
+        comment: [
+          {
+            user: "Kant",
+            comment: "HEllo caht good",
+          },
+          {
+            user: "Yo",
+            comment: "Aawdawd caht good",
+          },
+          {
+            user: "Top ten",
+            comment: "Love it bro! ",
+          },
+        ],
       },
       {
         name: "Wonka (2023)",
@@ -31,7 +64,20 @@ const PlayPage: NextPageWithLayout = () => {
         thumbnail:
           "https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png",
         url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
-        comment: ["dwadawdawdawdw", "awdawdad3qee23e2"],
+        comment: [
+          {
+            user: "Kant",
+            comment: "HEllo caht good",
+          },
+          {
+            user: "Yo",
+            comment: "Aawdawd caht good",
+          },
+          {
+            user: "Top ten",
+            comment: "Love it bro! ",
+          },
+        ],
       },
       {
         name: "영화 'Wonka'(2023) 예고편(trailer)으로 영어 공부하기",
@@ -111,7 +157,23 @@ const PlayPage: NextPageWithLayout = () => {
       thumbnail:
         "https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png",
       url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
-      comment: ["dwadawdawdawdw", "awdawdad3qee23e2"],
+      comment: [
+        {
+          user: "Kant",
+          comment: "HEllo caht good",
+          donation:""
+        },
+        {
+          user: "Yo",
+          comment: "Aawdawd caht good",
+          donation:""
+        },
+        {
+          user: "Top ten",
+          comment: "Love it bro! ",
+          donation:""
+        },
+      ],
     },
     {
       name: "Wonka (2023)",
@@ -123,6 +185,20 @@ const PlayPage: NextPageWithLayout = () => {
       thumbnail:
         "https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png",
       url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
+      comment: [
+        {
+          user: "Kant",
+          comment: "HEllo caht good",
+        },
+        {
+          user: "Yo",
+          comment: "Aawdawd caht good",
+        },
+        {
+          user: "Top ten",
+          comment: "Love it bro! ",
+        },
+      ],
     },
     {
       name: "영화 'Wonka'(2023) 예고편(trailer)으로 영어 공부하기",
@@ -134,6 +210,20 @@ const PlayPage: NextPageWithLayout = () => {
       thumbnail:
         "https://i.pinimg.com/originals/56/f0/c7/56f0c7de57fdae6d0a9ddc43448b6dff.png",
       url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
+      comment: [
+        {
+          user: "Kant",
+          comment: "HEllo caht good",
+        },
+        {
+          user: "Yo",
+          comment: "Aawdawd caht good",
+        },
+        {
+          user: "Top ten",
+          comment: "Love it bro! ",
+        },
+      ],
     },
     {
       name: "Wonka (2023)",
@@ -277,18 +367,7 @@ const PlayPage: NextPageWithLayout = () => {
             rows="5"
             placeholder="Comment here bro!"
           ></textarea>
-          <div className="HStack">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-              className="w-10 h-10"
-              alt=""
-            />
-            <div className="VStack">
-              <p>Yoza555</p>
-            <p>{videos[0].comment[0]}</p>
-
-            </div>
-          </div>
+          <div className="VStack">{commentLayout(0)}</div>
         </div>
       </div>
     </>
