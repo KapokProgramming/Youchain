@@ -358,9 +358,9 @@ export function DefaultLayout({ children }: Props) {
               <>
                 <div onClick={toggleDropdown}>
                   <div
-                    className="VStack rounded-lg p-3 System-background-ocean-blue text-white hover: System-background-secondary"
+                    className="VStack rounded-lg p-2 System-background-ocean-blue text-white hover: System-background-secondary"
                     style={{
-                      height: isDropdownOpen ? "375px" : "47px",
+                      height: isDropdownOpen ? "460px" : "90px",
                       transition: "all 0.5s ease",
                       overflow: "hidden",
                     }}
