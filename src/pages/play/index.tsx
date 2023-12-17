@@ -4,14 +4,19 @@ import { BiSolidLike } from "react-icons/bi";
 import { BiSolidDislike } from "react-icons/bi";
 import { CgGitFork } from "react-icons/cg";
 import { useState } from "react";
-import Router, {useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import { useAuthStore } from "@/stores/auth";
 
 const PlayPage: NextPageWithLayout = () => {
+  const signedIn = useAuthStore((store) => store.signedIn);
+  const accountId = useAuthStore((store) => store.accountId);
   const [likeCount, setLikeCount] = useState(128);
   const [dislikeCount, setDislikeCount] = useState(12);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [forkCount, setForkCount] = useState(3);
+  const [commentCount, setcommentCount] = useState(3);
+
   const [isFork, setIsFork] = useState(false);
   const router = useRouter();
 
@@ -21,9 +26,8 @@ const PlayPage: NextPageWithLayout = () => {
       setIsFork(true);
       // window.location.href = `upload?fork=${id}`;
       Router.push({
-        pathname: '/upload',
-        query: {fork: id}
-
+        pathname: "/upload",
+        query: { fork: id },
       });
     } else {
       setForkCount(forkCount - 1);
@@ -265,18 +269,20 @@ const PlayPage: NextPageWithLayout = () => {
         : video.description;
 
     return (
-      <div className="rounded-lg overflow-hidden w-7xl h-54 flex flex-col object-contain bg-gray-200 hover:bg-gray-500 whitespace-nowrap">
+      <div className="rounded-lg overflow-hidden w-7xl h-54 flex flex-col object-contain System-background-blue">
         <div className="pl-2">
-          {showFullDescription ? video.description : truncatedDescription}
+          <p className="whitespace-normal">
+            {showFullDescription ? video.description : truncatedDescription}
+            {wordsInDescription.length > 10 && (
+              <button
+                className="text-blue-500 underline p-2"
+                onClick={toggleDescription}
+              >
+                {showFullDescription ? "Show Less" : " More"}
+              </button>
+            )}
+          </p>
         </div>
-        {wordsInDescription.length > 10 && (
-          <button
-            className="text-blue-500 underline p-2"
-            onClick={toggleDescription}
-          >
-            {showFullDescription ? "Read Less" : "Read More"}
-          </button>
-        )}
       </div>
     );
   }
@@ -297,7 +303,7 @@ const PlayPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <div className="VStack w-full">
+      <div className="VStack w-full bg-white Sub-title">
         <div className="w-full">
           <video
             className=" w-full"
@@ -374,30 +380,73 @@ const PlayPage: NextPageWithLayout = () => {
             </div>
             <button className="Button-primary pl-4 pr-4 Circle">Follow</button>
           </div>
-          <div className=" overflow-y-scroll gap-4 HStack max-w-3xl min-w-3xl">
-            {displayVideoList(AccDetails)}
-          </div>
-          <div className="VStack">
-            Comment
-            <textarea
-              name=""
-              className="System-background-blue rounded-md"
-              id=""
-              cols="15"
-              rows="5"
-              placeholder="Comment here bro!"
-            ></textarea>
-            <div className="HStack">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                className="w-10 h-10"
-                alt=""
-              />
-              <div className="VStack">
-                <p>Yoza555</p>
-                <p>{videos[0].comment[0]}</p>
-              </div>
+          <div className="VStack System-background-blue p-4 rounded-lg">
+            <p className="mb-4 font-medium Title">Suggestion</p>
+            <div
+              className="overflow-y-scroll gap-4 HStack "
+              style={{
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "thin",
+                scrollbarColor: "transparent transparent",
+              }}
+            >
+              {displayVideoList(AccDetails)}
             </div>
+          </div>
+
+          <div className="VStack gap-4">
+            <div className="HStack gap-4">
+              <p className="Title">Comments </p>
+              <p>{commentCount}</p>
+              <p>times</p>
+            </div>
+            {signedIn ? (
+              <>
+                
+                <div className="VStack w-full gap-8">
+                  <div className="HStack gap-4">
+                  <img
+                      src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                      className="w-10 h-10"
+                      alt=""
+                    />
+                    <textarea
+                      name=""
+                      className="System-background-blue rounded-md w-full"
+                      id=""
+                      cols={15}
+                      rows={3}
+                      placeholder="Comment here bro!"
+                    ></textarea>
+                  </div>
+                  <div className="HStack">
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                      className="w-10 h-10"
+                      alt=""
+                    />
+                    <div className="VStack">
+                      <p>Yoza555</p>
+                      <p>{videos[0].comment[0]}</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="HStack">
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                    className="w-10 h-10"
+                    alt=""
+                  />
+                  <div className="VStack">
+                    <p>Yoza555</p>
+                    <p>{videos[0].comment[0]}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
