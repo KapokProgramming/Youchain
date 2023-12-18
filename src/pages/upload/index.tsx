@@ -21,7 +21,6 @@ const UploadPage = () => {
   const [vdoUri, setVdoUri] = useState<string>("");
   const accountId = useAuthStore((store) => store.accountId);
   const components = useBosComponents();
-  const [vdoUrl, setVdoUrl] = useState("") ;
   const searchParams = useRouter();
   const { fork } = searchParams.query;
 
@@ -29,10 +28,6 @@ const UploadPage = () => {
     console.log(fork);
     // Additional logic related to the effect
   }, [fork]); // Add dependencies if needed
-
-  useEffect( () => {
-    setVdoUrl(vdoUri)
-  }, [vdoUri])
 
   async function handleSubmitFile(file: File) {
     if (!file || !file.name.endsWith(".mp4")) {
