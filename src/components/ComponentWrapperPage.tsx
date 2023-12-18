@@ -14,18 +14,19 @@ type Props = {
   };
 };
 
-const Wrapper = styled.div`
-  padding: 1rem;
-`;
+// const Wrapper = styled.div`
+//   padding: 1rem;
+// `;
 
 export function ComponentWrapperPage(props: Props) {
   return (
     <>
       {props.meta && <MetaTags {...props.meta} />}
 
-      <Wrapper>
+      {/* <Wrapper> */}
         <VmComponent src={props.src} props={props.componentProps} />
-      </Wrapper>
+      {/* </Wrapper> */}
+      
     </>
   );
 }
