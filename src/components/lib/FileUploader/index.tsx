@@ -2,16 +2,17 @@ import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { storage } from '@/components/lib/Firebase/index'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { File } from 'buffer'
 
 
-export default function UploadFile({ message }) {
+export default function UploadFile({ message } : {message: string}) {
 
   const [spin, setSpin] = useState(false)
   const [downloadUrl, setDownloadUrl] = useState('')
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback( (acceptedFiles: Array<any>) => {
     setSpin(true)
-    const file = acceptedFiles[0]
+    const file : any = acceptedFiles[0]
     const mountainsRef = ref(storage, 'easyapply/' + file.name);
 
     uploadBytesResumable(mountainsRef, file).then((snapshot) => {
@@ -23,7 +24,7 @@ export default function UploadFile({ message }) {
     });
 
   }, [])
-  const { getRootProps, getInputProps } = useDropzone({ onDrop })
+  const { getRootProps, getInputProps } = useDropzone({ onDrop } )
 
   return (
     <div {...getRootProps()} className='flex justify-center m-2 border-2 rounded-lg p-4 '>

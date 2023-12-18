@@ -16,7 +16,7 @@ const swipeOutAnimation = keyframes`
   to { transform: translateX(calc(100% + 1rem)) }
 `;
 
-export const Viewport = styled(ToastPrimitive.Viewport)`
+export const Viewport = styled(ToastPrimitive.Viewport )`
   position: fixed;
   bottom: 0;
   right: 0;
@@ -29,6 +29,7 @@ export const Viewport = styled(ToastPrimitive.Viewport)`
   max-width: 20rem;
   z-index: 2147483632;
 `;
+
 
 export const Root = styled(ToastPrimitive.Root)`
   display: flex;
