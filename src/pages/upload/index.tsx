@@ -8,17 +8,20 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { uploadVideo } from "@/components/lib/Firebase/storage";
 import { useRouter } from "next/router";
+import { deleteObject } from "firebase/storage";
 import { ComponentWrapperPage } from "@/components/ComponentWrapperPage";
 import { useAuthStore } from "@/stores/auth";
 import { useBosComponents } from "@/hooks/useBosComponents";
-
+import { uploadBytesResumable } from "firebase/storage";
 const UploadPage = () => {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
+  const videoRef = useRef<any>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState<string>("");
   const [vdoUri, setVdoUri] = useState<string>("");
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const accountId = useAuthStore((store) => store.accountId);
   const components = useBosComponents();
   const searchParams = useRouter();
@@ -36,13 +39,63 @@ const UploadPage = () => {
     }
 
     try {
-      const url = await uploadVideo(file); // Await the file upload to complete
-      await setVdoUri(url);
-      console.log(vdoUri);
-      
-      console.log("File uploaded successfully");
+      // Use FileReader to display video preview
+      const reader = new FileReader();
+
+      // Type guard to check if e.target is not null
+      reader.onload = (e) => {
+        if (e.target) {
+          videoRef.current.src = e.target.result as string;
+        }
+      };
+
+      reader.readAsDataURL(file);
+
+      const storageRef = ref(storage, `videos/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Update progress bar during upload
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        },
+        (error) => {
+          console.error("Upload error:", error);
+        },
+        () => {
+          // Upload completed successfully
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setVdoUri(downloadURL);
+            console.log("File uploaded successfully");
+          });
+        }
+      );
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  async function removeFile(fileName: any, idx: any) {
+    try {
+      // Remove file from the files state
+      const newArr = [...files];
+      newArr.splice(idx, 1);
+      setFiles(newArr);
+
+      // Remove video preview and progress bar
+      setVdoUri("");
+      setUploadProgress(0);
+
+      // Remove video from the database
+      const storageRef = ref(storage, `videos/${fileName}`);
+      await deleteObject(storageRef);
+
+      console.log("File removed successfully");
+    } catch (error) {
+      console.error("Error removing file:", error);
     }
   }
 
@@ -61,16 +114,21 @@ const UploadPage = () => {
     }
   }
 
-  function handleChange(e: any) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-    console.log("File has been added");
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (file.type.startsWith("video/")) {
-        setFiles([file]);
-        handleSubmitFile(file); // Upload file when selected
-      } else {
-        alert("Only video files are allowed!");
+
+    // Ensure that e.target is not null before accessing its properties
+    if (e.target) {
+      console.log("File has been added");
+
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        if (file.type.startsWith("video/")) {
+          setFiles([file]);
+          handleSubmitFile(file); // Upload file when selected
+        } else {
+          alert("Only video files are allowed!");
+        }
       }
     }
   }
@@ -93,11 +151,11 @@ const UploadPage = () => {
     setDragActive(true);
   }
 
-  function removeFile(fileName: any, idx: any) {
-    const newArr = [...files];
-    newArr.splice(idx, 1);
-    setFiles(newArr);
-  }
+  // function removeFile(fileName: any, idx: any) {
+  //   const newArr = [...files];
+  //   newArr.splice(idx, 1);
+  //   setFiles(newArr);
+  // }
 
   function openFileExplorer() {
     inputRef.current.value = "";
@@ -166,29 +224,63 @@ const UploadPage = () => {
             onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
           >
-            <input
-              placeholder="fileInput"
-              className="hidden"
-              ref={inputRef}
-              type="file"
-              multiple={true}
-              onChange={handleChange}
-              accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
-            />
-            <div className="VStack items-center gap-10 justify-center p-10">
-              <div className="VStack gap-2 items-center">
-                <PiUploadSimple className="w-10 h-10" />
-                <p>Drag & Drop file to upload</p>
-              </div>
+            {vdoUri ? ( // Show progress bar only if video is uploaded
+              <></>
+            ) : (
+              <>
+                <input
+                  placeholder="fileInput"
+                  className="hidden"
+                  ref={inputRef}
+                  type="file"
+                  multiple={true}
+                  onChange={handleChange}
+                  accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+                />
+                <div className="VStack items-center gap-10 justify-center p-10">
+                  <div className="VStack gap-2 items-center">
+                    <PiUploadSimple className="w-10 h-10" />
+                    <p>Drag & Drop file to upload</p>
+                  </div>
 
-              <button
-                className="p-2 Button-primary rounded-md  "
-                onClick={openFileExplorer}
-              >
-                {" "}
-                Select file
-              </button>
+                  <button
+                    className="p-2 Button-primary rounded-md  "
+                    onClick={openFileExplorer}
+                    accept=".mp4"
+                  >
+                    {" "}
+                    Select file
+                  </button>
+                  <input
+                    placeholder="fileInput"
+                    className="hidden"
+                    ref={inputRef}
+                    type="file"
+                    multiple={true}
+                    onChange={handleChange}
+                    accept=".mp4"
+                  />
+                </div>
+              </>
+            )}
+
+            <div className="w-full HStack">
+              <progress
+                value={uploadProgress}
+                max="100"
+                className={`w-full mt-3 System-background-blue rounded-md ${
+                  uploadProgress === 100 || uploadProgress === 0 ? "hidden" : ""
+                }`}
+              ></progress>
+              {uploadProgress === 100 && (
+                <p className="text-green-500 mt-3">Upload completed!</p>
+              )}
             </div>
+            <video
+              ref={videoRef}
+              controls={!vdoUri} // Show controls only if the video is not uploaded
+              className={`w-full max-h-96 ${!vdoUri ? "hidden" : ""}`} // Hide if video is not uploaded
+            ></video>
 
             <div className="flex flex-col items-center p-3">
               {files.map((file, idx) => (
