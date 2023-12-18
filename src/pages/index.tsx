@@ -112,6 +112,7 @@ const HomePage: NextPageWithLayout = () => {
       <div id="News" className="w-full h-full">
         <p className="font-bold ml-8 text-lg">Recommendation</p>
         <div className="ml-16 mt-10">{displayVideoDetails(videoes)}</div>
+        {/* <ComponentWrapperPage src={components.videoList}></ComponentWrapperPage> */}
       </div>
     </>
   );

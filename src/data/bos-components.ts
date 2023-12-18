@@ -6,6 +6,7 @@ type NetworkComponents = {
   profileBanner: string;
   videoCard: string;
   videoUploadForm: string;
+  videoList : string;
 };
 
 export const componentsByNetworkId: Record<NetworkId, NetworkComponents | undefined> = {
@@ -14,7 +15,8 @@ export const componentsByNetworkId: Record<NetworkId, NetworkComponents | undefi
     profileImage: 'kan_k.testnet/widget/UserProfilePicture',
     profileBanner: 'kan_k.testnet/widget/ProfileBanner',
     videoCard: 'kan_k.testnet/widget/VideoCard',
-    videoUploadForm: 'kan_k.testnet/widget/VideoUpload'
+    videoUploadForm: 'kan_k.testnet/widget/VideoUpload',
+    videoList: 'kan_k.testnet/widget/VideoList'
   },
 
   mainnet: {
@@ -22,6 +24,7 @@ export const componentsByNetworkId: Record<NetworkId, NetworkComponents | undefi
     profileImage: 'mob.near/widget/ProfileImage',
     profileBanner: 'kan_k.near/widget/ProfileBanner',
     videoCard: 'kan_k.near/widget/VideoCard',
-    videoUploadForm: 'kan_k.near/widget/VideoUpload'
+    videoUploadForm: 'kan_k.near/widget/VideoUpload',
+    videoList: 'kan_k.near/widget/VideoList'
   },
 };
