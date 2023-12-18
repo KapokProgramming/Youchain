@@ -70,7 +70,7 @@ export function DefaultLayout({ children }: Props) {
                 className="hover:no-underline HStack gap-3 p-2"
                 style={{ display: isSafeAreaActive ? "block" : "none" }}
               >
-                <p className="Ocean-blue text-xl Title">Atomic</p>
+                <p className="Ocean-blue text-xl Title">ATOMIC</p>
               </Link>
               <div
                 onClick={toggleSafeArea}
