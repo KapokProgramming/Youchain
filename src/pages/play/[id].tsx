@@ -264,7 +264,7 @@ const PlayPage: NextPageWithLayout = () => {
 
             <div
               className="HStack items-center hover:brightness-125 cursor-pointer gap-2 text-white System-background-ocean-blue pl-4 pr-4 Circle"
-              onClick={() => fork(Number(videoes[0].id).toString())}
+              onClick={() => fork(videoes[0].title)}
             >
               <p className="p-2">
                 <CgGitFork
