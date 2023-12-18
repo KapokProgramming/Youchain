@@ -125,18 +125,20 @@ const PlayPage: NextPageWithLayout = () => {
         : video.description;
 
     return (
-      <div className="rounded-lg overflow-hidden w-7xl h-54 flex flex-col object-contain bg-gray-200 hover:bg-gray-500 whitespace-nowrap">
+      <div className="rounded-lg overflow-hidden w-7xl h-54 flex flex-col object-contain System-background-blue">
         <div className="pl-2">
-          {showFullDescription ? video.description : truncatedDescription}
+          <p className="whitespace-normal">
+            {showFullDescription ? video.description : truncatedDescription}
+            {wordsInDescription.length > 10 && (
+              <button
+                className="text-blue-500 underline p-2"
+                onClick={toggleDescription}
+              >
+                {showFullDescription ? "Show Less" : " More"}
+              </button>
+            )}
+          </p>
         </div>
-        {wordsInDescription.length > 10 && (
-          <button
-            className="text-blue-500 underline p-2"
-            onClick={toggleDescription}
-          >
-            {showFullDescription ? "Read Less" : "Read More"}
-          </button>
-        )}
       </div>
     );
   }

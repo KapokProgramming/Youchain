@@ -83,7 +83,7 @@ const HomePage: NextPageWithLayout = () => {
       </div>
 
       <div id="News" className="w-full h-full">
-
+        {/* <ComponentWrapperPage src={components.videoList}></ComponentWrapperPage> */}
       </div>
     </>
   );
