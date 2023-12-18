@@ -42,7 +42,7 @@ const MyVideoPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <div className="Label ml-16 mt-10">{displayVideoDetails(videoes)}</div>
+      <div className="ml-16 mt-10">{displayVideoDetails(videoes)}</div>
     </>
   );
 };
