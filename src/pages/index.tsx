@@ -19,7 +19,6 @@ const HomePage: NextPageWithLayout = () => {
   ];
 
   const ranking = [
-<<<<<<< HEAD
     "BitKub",
     "JFIN Chain",
     "DEPA",
@@ -29,19 +28,7 @@ const HomePage: NextPageWithLayout = () => {
     "ContributionDAO",
     "ETH Padthai",
     "CAMT 20",
-    "CMU",
-=======
-    "Mr.Beast",
-    "Pewdiepie",
-    "T-Series",
-    "Cocomelon",
-    "SET India",
-    "5-Minute Crafts",
-    "WWE",
-    "Zee Music",
-    "Like Nastya",
-    "Kids Diana Show",
->>>>>>> feature/new-main-page
+    "FINT",
   ];
 
   function rankingComponent(items: any) {
