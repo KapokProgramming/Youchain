@@ -43,8 +43,7 @@ export function DefaultLayout({ children }: Props) {
 
   const navigateToProfile = () => {
     router.push({
-      pathname: `/profile/${accountId}`
-
+      pathname: `/profile/${accountId}`,
     });
   };
 
@@ -363,20 +362,17 @@ export function DefaultLayout({ children }: Props) {
                   <div
                     className="VStack rounded-lg p-2 System-background-ocean-blue text-white hover: System-background-secondary"
                     style={{
-                      height: isDropdownOpen ? "460px" : "90px",
+                      height: isDropdownOpen ? "393px" : "50px",
                       transition: "all 0.5s ease",
                       overflow: "hidden",
                     }}
                   >
                     <div className="HStack gap-2 items-center justify-center">
-                      {/* <img
-                        src="{accountProfile}"
-                        className="w-6 h-6 rounded-sm"
-                      /> */}
-                      <ComponentWrapperPage
+                      <div className="w-8 h-8"><ComponentWrapperPage
                         src={components.profileImage}
-                        componentProps={{ imageClassName: "float-left w-24" }}
-                      />
+                        componentProps={{imageClassName:" rounded-md",style:{}}}
+                      /></div>
+                      
                       <p>{accountId}</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -394,10 +390,10 @@ export function DefaultLayout({ children }: Props) {
                       </svg>
                     </div>
                     <div className="">
-                      <div className=" VStack mt-4">
-                        <div className="text-white HStack text-left rounded-2xl pl-2 pr-2 p-2 System-background-blue">
-                          <div className="HStack justify-between gap-4 w-full">
-                            <div className="HStack items-center gap-2">
+                      <div className=" VStack mt-4 ">
+                        <div className="mt-4 mb-4 text-white HStack text-left rounded-lg pl-2 pr-2 p-2 System-background-blue">
+                          <div className="HStack justify-between gap-4  w-full">
+                            <div className="HStack items-center gap-2 ">
                               <HiMiniWallet className=" w-5 h-5 text-white" />
                               Wallet
                             </div>
@@ -418,7 +414,7 @@ export function DefaultLayout({ children }: Props) {
                           type="button"
                           onClick={navigateToProfile}
                           // onClick={logOut}
-                          className="text-white HStack text-left mt-2 mb-2 rounded-2xl p-4 gap-2 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -440,7 +436,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           // onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -458,12 +454,12 @@ export function DefaultLayout({ children }: Props) {
                           </svg>
                           Activities
                         </button>
-                        <div className="Herizontal-line"> </div>
+                        <div className="Herizontal-line bg-white"> </div>
 
                         <button
                           type="button"
                           onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -487,12 +483,12 @@ export function DefaultLayout({ children }: Props) {
                           Setting
                         </button>
 
-                        <div className="Herizontal-line"> </div>
+                        <div className="Herizontal-line bg-white"> </div>
 
                         <button
                           type="button"
                           onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
