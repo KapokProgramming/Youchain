@@ -414,7 +414,7 @@ export function DefaultLayout({ children }: Props) {
                           type="button"
                           onClick={navigateToProfile}
                           // onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-md p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -436,7 +436,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           // onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-md p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -459,7 +459,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-md p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -488,7 +488,7 @@ export function DefaultLayout({ children }: Props) {
                         <button
                           type="button"
                           onClick={logOut}
-                          className="text-white HStack text-left rounded-2xl p-4 gap-2 hover:brightness-125 hover:System-background-blue"
+                          className="text-white HStack text-left rounded-md p-4 gap-2 hover:brightness-125 hover:System-background-blue"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
