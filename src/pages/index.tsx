@@ -18,16 +18,16 @@ const HomePage: NextPageWithLayout = () => {
   ];
 
   const ranking = [
-    "twitter",
-    "facebook",
-    "instagram",
-    "youtube",
-    "tiktok",
-    "snapchat",
-    "linkedin",
-    "pinterest",
-    "reddit",
-    "tumblr",
+    "BitKub",
+    "JFIN Chain",
+    "DEPA",
+    "Inspex",
+    "I am Able",
+    "KillSwitch",
+    "ContributionDAO",
+    "ETH Padthai",
+    "CAMT 20",
+    "CMU",
   ];
 
   function rankingComponent(items: any) {
@@ -77,6 +77,8 @@ const HomePage: NextPageWithLayout = () => {
           </div>
 
           <div className="w-2/4 bg- overflow-hidden h-full relative rounded-md overflow-y-scroll scrollbar-hide bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black">
+            
+            <p className="Title text-white text-2xl pr-4 pl-4 pt-4"> Trend</p>
             {rankingComponent(ranking)}
           </div>
         </div>
