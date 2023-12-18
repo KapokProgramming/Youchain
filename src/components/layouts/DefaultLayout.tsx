@@ -7,14 +7,15 @@ import { GoHomeFill } from "react-icons/go";
 import { PiVideoCameraFill } from "react-icons/pi";
 import { FiPlus } from "react-icons/fi";
 import { useRouter } from "next/router";
-import { BiSolidVideos } from "react-icons/bi";
-import { BiSolidVideoPlus } from "react-icons/bi";
+import { BiSolidVideos, BiSolidVideoPlus } from "react-icons/bi";
 import { HiMiniWallet } from "react-icons/hi2";
 import { useState } from "react";
 import Link from "next/link";
+import * as React from 'react';
 import { isAbsolute } from "path";
 import { ComponentWrapperPage } from "@/components/ComponentWrapperPage";
 import { useBosComponents } from "@/hooks/useBosComponents";
+
 interface Props {
   children: ReactNode;
 }
@@ -31,26 +32,23 @@ export function DefaultLayout({ children }: Props) {
   const router = useRouter();
   const components = useBosComponents();
 
-  // Function to toggle dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  // Function to close dropdown
   const closeDropdown = () => {
     setDropdownOpen(false);
   };
 
   const navigateToProfile = () => {
-    router.push({
-      pathname: `/profile/${accountId}`,
-    });
+    router.push({ pathname: `/profile/${accountId}` });
   };
 
   const toggleSafeArea = () => {
     setSafeAreaActive(!isSafeAreaActive);
-    setDropdownOpen(false); // Close the dropdown when toggling
+    setDropdownOpen(false);
   };
+
   const toggleSearchBar = () => {
     setSearchBarVisible(!isSearchBarVisible);
     setDropdownOpen(false);
@@ -61,8 +59,11 @@ export function DefaultLayout({ children }: Props) {
 
   return (
     <>
-      <div className="HStack h-screen w-screen">
-        <div className="hidden lg:block w-1/5 max-w-xs h-full" id="safe-area">
+     <div className="HStack h-screen w-screen">
+        <div
+          className="hidden lg:block w-1/5 max-w-xs h-full"
+          id="safe-area"
+        >
           <div id="panel" className="p-6 VStack gap-4">
             <div className="HStack justify-between items-center">
               <Link
@@ -249,97 +250,106 @@ export function DefaultLayout({ children }: Props) {
                 </p>
               </div>
             </Link>
-            <Link
-              href="/myvideo"
-              className={`HStack gap-3 hover:System-background-blue  items-center p-4  hover:no-underline  rounded-lg ${
-                router.pathname === "/myvideo" ? "active" : ""
-              }`}
-            >
-              <div className="w-1/5 VStack justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <g fill="none" fill-rule="evenodd">
-                    <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z" />
-                    <path
-                      className={`Grey-2 ${
-                        router.pathname === "/myvideo" ? "active" : ""
-                      }`}
-                      d="M4 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm4.625 5.63a1.235 1.235 0 0 1 1.715-.992c.504.216 1.568.702 2.916 1.48a28.331 28.331 0 0 1 2.74 1.786 1.234 1.234 0 0 1 0 1.98 28.3 28.3 0 0 1-2.74 1.784 28.322 28.322 0 0 1-2.916 1.482 1.234 1.234 0 0 1-1.715-.992 28.566 28.566 0 0 1-.176-3.264c0-1.551.112-2.719.176-3.264Z"
-                    />
-                  </g>
-                </svg>
-              </div>
-              <div className="w-4/5">
-                <p
-                  className={`text-md Sub-title Grey-2${
+            {signedIn ? (
+              <>
+                {" "}
+                <Link
+                  href="/myvideo"
+                  className={`HStack gap-3 hover:System-background-blue  items-center p-4  hover:no-underline  rounded-lg ${
                     router.pathname === "/myvideo" ? "active" : ""
                   }`}
                 >
-                  My videos
-                </p>
-              </div>
-            </Link>
-            <Link
-              href="/upload"
-              className={`HStack gap-3  hover:System-background-blue items-center p-4  hover:no-underline  rounded-lg ${
-                router.pathname === "/upload" ? "active" : ""
-              }`}
-            >
-              <div className="w-1/5 VStack justify-center">
-                <BiSolidVideoPlus
-                  className={`Grey-2 w-7 h-7 ${
-                    router.pathname === "/upload" ? "Ocean-blue w-7 h-7" : ""
-                  }`}
-                />
-              </div>
-              <div className="w-4/5">
-                <p
-                  className={`text-md Sub-title Grey-2${
+                  <div className="w-1/5 VStack justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <g fill="none" fill-rule="evenodd">
+                        <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z" />
+                        <path
+                          className={`Grey-2 ${
+                            router.pathname === "/myvideo" ? "active" : ""
+                          }`}
+                          d="M4 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm4.625 5.63a1.235 1.235 0 0 1 1.715-.992c.504.216 1.568.702 2.916 1.48a28.331 28.331 0 0 1 2.74 1.786 1.234 1.234 0 0 1 0 1.98 28.3 28.3 0 0 1-2.74 1.784 28.322 28.322 0 0 1-2.916 1.482 1.234 1.234 0 0 1-1.715-.992 28.566 28.566 0 0 1-.176-3.264c0-1.551.112-2.719.176-3.264Z"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                  <div className="w-4/5">
+                    <p
+                      className={`text-md Sub-title Grey-2${
+                        router.pathname === "/myvideo" ? "active" : ""
+                      }`}
+                    >
+                      My videos
+                    </p>
+                  </div>
+                </Link>
+                <Link
+                  href="/upload"
+                  className={`HStack gap-3  hover:System-background-blue items-center p-4  hover:no-underline  rounded-lg ${
                     router.pathname === "/upload" ? "active" : ""
                   }`}
                 >
-                  Create new
-                </p>
-              </div>
-            </Link>
-            <Link
-              href="/subscriber"
-              className={`HStack gap-3  hover:System-background-blue items-center p-4  hover:no-underline  rounded-lg ${
-                router.pathname === "/subscriber" ? "active" : ""
-              }`}
-            >
-              <div className="w-1/5 VStack justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <g fill="none" fill-rule="nonzero">
-                    <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z" />
-                    <path
-                      className={`Grey-2 ${
-                        router.pathname === "/subscriber" ? "active" : ""
+                  <div className="w-1/5 VStack justify-center">
+                    <BiSolidVideoPlus
+                      className={`Grey-2 w-7 h-7 ${
+                        router.pathname === "/upload"
+                          ? "Ocean-blue w-7 h-7"
+                          : ""
                       }`}
-                      d="M13 13a4 4 0 0 1 4 4v1.5a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 2 18.5V17a4 4 0 0 1 4-4h7Zm6 0a3 3 0 0 1 3 3v1.5a1.5 1.5 0 0 1-1.5 1.5H19v-2a4.992 4.992 0 0 0-2-4h2ZM9.5 3a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9ZM18 6a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"
                     />
-                  </g>
-                </svg>
-              </div>
-              <div className="w-4/5">
-                <p
-                  className={`text-md Sub-title Grey-2${
+                  </div>
+                  <div className="w-4/5">
+                    <p
+                      className={`text-md Sub-title Grey-2${
+                        router.pathname === "/upload" ? "active" : ""
+                      }`}
+                    >
+                      Create new
+                    </p>
+                  </div>
+                </Link>
+                <Link
+                  href="/subscriber"
+                  className={`HStack gap-3  hover:System-background-blue items-center p-4  hover:no-underline  rounded-lg ${
                     router.pathname === "/subscriber" ? "active" : ""
                   }`}
                 >
-                  Subscribers
-                </p>
-              </div>
-            </Link>
+                  <div className="w-1/5 VStack justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <g fill="none" fill-rule="nonzero">
+                        <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z" />
+                        <path
+                          className={`Grey-2 ${
+                            router.pathname === "/subscriber" ? "active" : ""
+                          }`}
+                          d="M13 13a4 4 0 0 1 4 4v1.5a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 2 18.5V17a4 4 0 0 1 4-4h7Zm6 0a3 3 0 0 1 3 3v1.5a1.5 1.5 0 0 1-1.5 1.5H19v-2a4.992 4.992 0 0 0-2-4h2ZM9.5 3a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9ZM18 6a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                  <div className="w-4/5">
+                    <p
+                      className={`text-md Sub-title Grey-2${
+                        router.pathname === "/subscriber" ? "active" : ""
+                      }`}
+                    >
+                      Subscribers
+                    </p>
+                  </div>
+                </Link>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div
@@ -368,11 +378,16 @@ export function DefaultLayout({ children }: Props) {
                     }}
                   >
                     <div className="HStack gap-2 items-center justify-center">
-                      <div className="w-8 h-8"><ComponentWrapperPage
-                        src={components.profileImage}
-                        componentProps={{imageClassName:" rounded-md",style:{}}}
-                      /></div>
-                      
+                      <div className="w-8 h-8">
+                        <ComponentWrapperPage
+                          src={components.profileImage}
+                          componentProps={{
+                            imageClassName: " rounded-md",
+                            style: {},
+                          }}
+                        />
+                      </div>
+
                       <p>{accountId}</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
