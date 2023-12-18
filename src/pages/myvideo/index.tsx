@@ -2,59 +2,39 @@ import { useDefaultLayout } from "@/hooks/useLayout";
 import type { NextPageWithLayout } from "@/utils/types";
 import { Playlist } from "@/components/lib/Playlist/index";
 import Link from "next/link";
+import { ComponentWrapperPage } from "@/components/ComponentWrapperPage";
+import { useBosComponents } from "@/hooks/useBosComponents";
 const MyVideoPage: NextPageWithLayout = () => {
-  const videoDetails = [
+  const components = useBosComponents();
+
+  const videoes = [
     {
-      id: "123",
-      name: "영화 'Wonka'(2023) 예고편(trailer)으로 영어 공부하기",
-      date: "4 days ago",
-      channelName: "Yo Hippy",
+      id: "1",
+      timestamp: 1702882062,
+      title: "Test 20 yr",
+      description: "test123",
+      owner: "kan_k.near",
+      src: "https://youtu.be/pC3dIPpC7JI?si=ERfG4HufLQkyY_j_",
       thumbnail:
-        "https://resizing.flixster.com/i7Txn-rTWv7B8aB5AYbe2IuLU6s=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzE0N2E1MDljLTNlZDEtNDIyMS1iZjgzLTJkMjU1NjRjNzEwMy5qcGc=",
-      url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
+        "https://ipfs.near.social/ipfs/bafkreielwwffvkzqquv4gt7n35m47dht53v4sowvy3hyukj4arv4oaymni",
     },
     {
-      id: "124",
-      name: "Wonka (2023)",
-      date: "4 days ago",
-      channelName: "Yo Hippy",
+      id: "2",
+      timestamp: 1702882062,
+      title: "Test 20 yr",
+      description: "test123",
+      owner: "kan_k.near",
+      src: "https://youtu.be/pC3dIPpC7JI?si=ERfG4HufLQkyY_j_",
       thumbnail:
-        "https://resizing.flixster.com/i7Txn-rTWv7B8aB5AYbe2IuLU6s=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzE0N2E1MDljLTNlZDEtNDIyMS1iZjgzLTJkMjU1NjRjNzEwMy5qcGc=",
-      url: "https://www.youtube.com/embed/wYmtRhKvmVE?si=wVWcqX8E2fXe_ZEk",
-    },
+        "https://ipfs.near.social/ipfs/bafkreielwwffvkzqquv4gt7n35m47dht53v4sowvy3hyukj4arv4oaymni",
+    }
   ];
 
   function displayVideoDetails(detail: any) {
     const details = [];
-    for (let i = 0; i < videoDetails.length; i++) {
+    for (let i = 0; i < videoes.length; i++) {
       details.push(
-        <div className="HStack Lable gap-2  hover:bg-gray-300 w-3/4 h-52">
-          <Link href={`play/${detail[i].id}`}>
-            <div className="HStack w-full">
-              <div className="video">
-                <img
-                  className="rounded-lg w-full h-48 object-fill"
-                  src={detail[i].thumbnail}
-                  alt="thumbnail"
-                />
-              </div>
-              <div className="VStack justify-between">
-                <div className="">
-                  <p className="Label font-medium text-lg">{detail[i].name}</p>
-                  <p className="Grey">4 days ago</p>
-                  <div className="HStack items-center gap-2 mt-4">
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src={detail[i].thumbnail}
-                      alt="owner"
-                    />
-                    <p> {detail[i].channelName} </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
-        </div>
+        <ComponentWrapperPage src={components.videoCard} componentProps={videoes[i]} />
       );
     }
     return details;
@@ -62,7 +42,7 @@ const MyVideoPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <div className="Label ml-16 mt-10">{displayVideoDetails(videoDetails)}</div>
+      <div className="Label ml-16 mt-10">{displayVideoDetails(videoes)}</div>
     </>
   );
 };
