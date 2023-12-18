@@ -34,7 +34,7 @@ const MyVideoPage: NextPageWithLayout = () => {
           ></iframe>{" "}
           <div className="VStack justify-between">
             <div className="">
-              <p className="Label font-medium text-lg">
+              <p className="text-black font-medium text-lg">
                 { detail[i].name }
               </p>
               <p className="Grey">4 days ago</p>
