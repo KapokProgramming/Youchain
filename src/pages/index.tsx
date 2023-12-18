@@ -9,9 +9,9 @@ const HomePage: NextPageWithLayout = () => {
 
   const details = [
     {
-      title: "Top 10 Best Places to Visit in the World",
+      title: "Top 10 Best Video Games of the Decade",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non quo nobis quia magni sequi excepturi rerum nihil, laudantium architecto eos!",
+        "Are you looking for the most popular online games that have been played over time? You have just discovered the best list of the ten most popular online games from the more well-known and less specialized gaming types. With advanced technology and other new sources, online games are played all over the world.",
       date: "7 days ago",
       image:
         "",
@@ -89,7 +89,7 @@ const HomePage: NextPageWithLayout = () => {
 
 
       <div className="w-full h-3/6 mt-2 gap-2">
-        <div className="w-5/6 h-5/6 flex flex-row m-auto mt-12 gap-8">
+        <div className="w-full h-5/6 flex flex-row mt-12 gap-2 mr-2">
           <div className="w-full cursor-pointer overflow-hidden rounded-md h-full relative bg-gradient-to-t from-pink-300 via-purple-300 to-indigo-400 ">
             <div className="w-full flex flex-col absolute inset-x-0 bottom-0 mb-5 ml-4 ">
               <p className="text-4xl font-bold text-white">
