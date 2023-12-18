@@ -87,6 +87,16 @@ const PlayPage: NextPageWithLayout = () => {
       src: "https://youtu.be/pC3dIPpC7JI?si=ERfG4HufLQkyY_j_",
       thumbnail:
         "https://ipfs.near.social/ipfs/bafkreielwwffvkzqquv4gt7n35m47dht53v4sowvy3hyukj4arv4oaymni",
+    },
+    {
+      id: "2",
+      timestamp: 1702882062,
+      title: "Test 20 yr",
+      description: "test123",
+      owner: "kan_k.near",
+      src: "https://youtu.be/pC3dIPpC7JI?si=ERfG4HufLQkyY_j_",
+      thumbnail:
+        "https://ipfs.near.social/ipfs/bafkreielwwffvkzqquv4gt7n35m47dht53v4sowvy3hyukj4arv4oaymni",
     }
   ];
   const components = useBosComponents();
@@ -224,8 +234,8 @@ const PlayPage: NextPageWithLayout = () => {
             </div>
             <button className="Button-primary pl-4 pr-4 Circle">Follow</button>
           </div>
-          <div className=" overflow-y-scroll gap-6 HStack max-w-3xl min-w-3xl">
-            {displayVideoList(videoes)}
+          <div className=" flex flex-row gap-36 overflow-x-hidden">
+            {displayVideoList(videoes.slice(0,3))}
           </div>
           <div className="VStack">
             Comment
