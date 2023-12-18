@@ -8,6 +8,9 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { uploadVideo } from "@/components/lib/Firebase/storage";
 import { useRouter } from "next/router";
+import { ComponentWrapperPage } from "@/components/ComponentWrapperPage";
+import { useAuthStore } from "@/stores/auth";
+import { useBosComponents } from "@/hooks/useBosComponents";
 
 const UploadPage = () => {
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -15,7 +18,10 @@ const UploadPage = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState<string>("");
-
+  const [vdoUri, setVdoUri] = useState<string>("");
+  const accountId = useAuthStore((store) => store.accountId);
+  const components = useBosComponents();
+  const [vdoUrl, setVdoUrl] = useState("") ;
   const searchParams = useRouter();
   const { fork } = searchParams.query;
 
@@ -24,6 +30,10 @@ const UploadPage = () => {
     // Additional logic related to the effect
   }, [fork]); // Add dependencies if needed
 
+  useEffect( () => {
+    setVdoUrl(vdoUri)
+  }, [vdoUri])
+
   async function handleSubmitFile(file: File) {
     if (!file || !file.name.endsWith(".mp4")) {
       console.error("Only video files (.mp4) are allowed!");
@@ -31,7 +41,10 @@ const UploadPage = () => {
     }
 
     try {
-      await uploadVideo(file); // Await the file upload to complete
+      const url = await uploadVideo(file); // Await the file upload to complete
+      await setVdoUri(url);
+      console.log(vdoUri);
+      
       console.log("File uploaded successfully");
     } catch (e) {
       console.error(e);
@@ -149,9 +162,7 @@ const UploadPage = () => {
         </div>
       )}
       <div className="HStack h-full">
-        
         <div className="VStack w-2/3 items-center">
-          
           <div
             className=" border-dashed border-2 w-4/5 m-10 border-blue-700 p-4 rounded-lg text-center flex flex-col items-center justify-center "
             onDragEnter={handleDragEnter}
@@ -159,7 +170,6 @@ const UploadPage = () => {
             onDrop={handleDrop}
             onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
-            onClick={openFileExplorer}
           >
             <input
               placeholder="fileInput"
@@ -181,7 +191,7 @@ const UploadPage = () => {
                 onClick={openFileExplorer}
               >
                 {" "}
-                select file
+                Select file
               </button>
             </div>
 
@@ -200,7 +210,15 @@ const UploadPage = () => {
             </div>
           </div>
         </div>
-        <div className="m-10 VStack  w-1/3 gap-10">
+
+        <div className="w-full">
+          <ComponentWrapperPage
+            src={components.videoUploadForm}
+            componentProps={{ accountId: accountId, vdoUrl: vdoUri }}
+          />
+        </div>
+
+        {/* <div className="m-10 VStack  w-1/3 gap-10">
           <div className="VStack justify-between h-full">
             <div className="VStack gap-4">
               <div className="VStack gap-2">
@@ -225,7 +243,7 @@ const UploadPage = () => {
                 ></textarea>
               </div>
               <div className="VStack gap-2">
-                <p className=" text-md">Tage</p>
+                <p className=" text-md">Tag</p>
                 <div className="w-full">
                   {tags.map((t, i) => (
                     <span
@@ -258,7 +276,7 @@ const UploadPage = () => {
               <button className=" p-2 Button-primary">Done</button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
