@@ -24,7 +24,7 @@ export const componentsByNetworkId: Record<NetworkId, NetworkComponents | undefi
     profileImage: 'mob.near/widget/ProfileImage',
     profileBanner: 'kan_k.near/widget/ProfileBanner',
     videoCard: 'kan_k.near/widget/VideoCard',
-    videoUploadForm: 'kan_k.near/widget/VideoUpload',
+    videoUploadForm: 'kan_k.near/widget/VideoUploadTestNet',
     videoList: 'kan_k.near/widget/VideoList'
   },
 };
