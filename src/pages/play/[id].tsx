@@ -175,6 +175,7 @@ const PlayPage: NextPageWithLayout = () => {
 		}
 		return details;
 	}
+
 	function displayVideoDetails(video: object) {
 		if (!video["description"]) {
 			return;
@@ -219,6 +220,27 @@ const PlayPage: NextPageWithLayout = () => {
 			});
 	};
 
+	const [commentMessage, setCommentMessage] = useState("")
+	const [commentAmount, setCommentAmount] = useState(0)
+
+	const onMessageUpdate = (event) => {
+		setCommentMessage(event.target.value);
+	}
+
+	const onAmountUpdate = (event) => {
+		setCommentAmount(event.target.value);
+	}
+
+	const handleMessageSubmit = async () => {
+		// console.log(, commentMessage)
+		if (ethWallet?.signer) {
+			getAtomic(ethWallet.signer)
+				.addComment(router.query.id, commentMessage, {value:ethers.parseEther(commentAmount.toString()) } )
+		}
+		setCommentMessage("")
+		setCommentAmount(0)
+
+	}
 	return (
 		<>
 			<div className="VStack w-full">
@@ -240,8 +262,8 @@ const PlayPage: NextPageWithLayout = () => {
 								<p className="p-2">
 									<BiSolidLike
 										className={` ${isLiked
-												? "text-red-500"
-												: "text-white"
+											? "text-red-500"
+											: "text-white"
 											}`}
 									/>
 								</p>
@@ -259,15 +281,15 @@ const PlayPage: NextPageWithLayout = () => {
 								<p className="p-2">
 									<BiSolidDislike
 										className={` ${isDisliked
-												? "text-red-500"
-												: "text-white"
+											? "text-red-500"
+											: "text-white"
 											}`}
 									/>
 								</p>
 								<p
 									className={` ${isDisliked
-											? "text-red-500"
-											: "text-white"
+										? "text-red-500"
+										: "text-white"
 										}`}>
 									{" "}
 									{dislikeCount}
@@ -323,33 +345,8 @@ const PlayPage: NextPageWithLayout = () => {
 							<>
 								<div className="VStack w-full gap-8">
 									<div className="HStack gap-4">
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											8 kub
-										</button>
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											16 kub
-										</button>
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											32 kub
-										</button>
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											64 kub
-										</button>
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											128 kub
-										</button>
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											256 kub
-										</button>
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											512 kub
-										</button>
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											1024 kub
-										</button>{" "}
-										<button className="hover:Circle pr-4 pl-4 pt-2 pb-2 Circle Button-primary">
-											100 kub
-										</button>
+										<label>Donation Amount</label>
+										<input type="number" min={0} max={10000} value={commentAmount} onChange={onAmountUpdate}></input>
 									</div>
 									<div className="HStack gap-4">
 										<img
@@ -363,10 +360,13 @@ const PlayPage: NextPageWithLayout = () => {
 											id=""
 											cols={15}
 											rows={3}
-											placeholder="Comment here bro!"></textarea>
-										<button className="Button-primary">
-											Post
-										</button>
+											placeholder="Comment here bro!"
+											value={commentMessage}
+											onChange={onMessageUpdate} 
+										/>
+											<button className="Button-primary" onClick={handleMessageSubmit}>
+												Post
+											</button>
 									</div>
 								</div>
 							</>
