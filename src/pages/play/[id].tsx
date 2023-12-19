@@ -228,7 +228,7 @@ const PlayPage: NextPageWithLayout = () => {
 					<video
 						className=" w-full h-[640px] object-contain bg-stone-900"
 						src={video["src"]}
-						controls={true}></video>
+						controls={true} autoPlay={true}></video>
 				</div>
 				<div className="HStack justify-between mt-2 mb-2 items-start">
 					<div className="VStack">
@@ -309,11 +309,11 @@ const PlayPage: NextPageWithLayout = () => {
 							className="w-10 h-10"
 							alt=""
 						/>
-						<div className="VStack">
+						<div className="VStack px-2">
 							<p>{video["owner"]}</p>
 							<p>128k follower</p>
 						</div>
-						<button className="Button-primary pl-4 pr-4 Circle">
+						<button className="Button-primary px-4 rounded-full my-1">
 							Follow
 						</button>
 					</div>
