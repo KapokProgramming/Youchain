@@ -409,6 +409,7 @@ const PlayPage: NextPageWithLayout = () => {
 														comment.profilePic
 													}
 													comment={comment.message}
+													amount={comment.amount}
 												/>
 											);
 										}

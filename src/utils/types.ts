@@ -5,6 +5,7 @@ export type CommentCardProp = {
   profilePic: string;
   poster: string;
   message: string;
+  amount: number
 }
 
 export type NextPageWithLayout<T = any> = NextPage<T> & {
