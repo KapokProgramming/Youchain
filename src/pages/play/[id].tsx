@@ -1,34 +1,42 @@
 import { useDefaultLayout } from "@/hooks/useLayout";
-import type { NextPageWithLayout } from "@/utils/types";
+import { CommentCardProp, type NextPageWithLayout } from "@/utils/types";
 import { BiSolidLike } from "react-icons/bi";
 import { BiSolidDislike } from "react-icons/bi";
 import { CgGitFork } from "react-icons/cg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
 import { ComponentWrapperPage } from "@/components/ComponentWrapperPage";
 import { useBosComponents } from "@/hooks/useBosComponents";
 import { useAuthStore } from "@/stores/auth";
+import Comment from "@/components/lib/Comment/Comment";
 
 const PlayPage: NextPageWithLayout = () => {
-  function commentLayout(id: number) {
-    const details = [];
-    const target = videoes[id];
-    if (target.comment!.length < 1) return details;
-    for (let i = 0; i < target.comment.length; i++) {
-      details.push(
-        <div className="VStack">
-          <div className="HStack">
-            <div>users' profile</div>
-            <div className="VStack">
-              <p> {target.comment[i].user}</p>
-              <p> {target.comment[i].comment}</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    return details;
-  }
+
+  const [comments, setComments] = useState<Array<CommentCardProp>>([
+    {name: "kan", profilePic: "https://ipfs.near.social/ipfs/bafkreihqxowj6zs75bqgx3klw6ibxxxw36257bkoq3y3em7voslc4twgkm", comment: "I am atomic" },
+    {name: "Yo", profilePic: "https://ipfs.near.social/ipfs/bafkreihqxowj6zs75bqgx3klw6ibxxxw36257bkoq3y3em7voslc4twgkm", comment: "I am atomic" },
+  ])
+
+
+  // function commentLayout(id: number) {
+  //   const details = [];
+  //   const target = videoes[id];
+  //   if (target.comment!.length < 1) return details;
+  //   for (let i = 0; i < target.comment.length; i++) {
+  //     details.push(
+  //       <div className="VStack">
+  //         <div className="HStack">
+  //           <div>users' profile</div>
+  //           <div className="VStack">
+  //             <p> {target.comment[i].user}</p>
+  //             <p> {target.comment[i].comment}</p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  //   return details;
+  // }
   const [likeCount, setLikeCount] = useState(128);
   const [dislikeCount, setDislikeCount] = useState(12);
   const [isLiked, setIsLiked] = useState(false);
@@ -38,25 +46,25 @@ const PlayPage: NextPageWithLayout = () => {
   const router = useRouter();
   const [commentCount, setcommentCount] = useState(3);
   const signedIn = useAuthStore((store) => store.signedIn);
-  function commentLayout(id: number) {
-    const details = [];
-    const target = videoes[id];
-    if (target.comment!.length < 1) return details;
-    for (let i = 0; i < target.comment.length; i++) {
-      details.push(
-        <div className="VStack">
-          <div className="HStack">
-            <div>users' profile</div>
-            <div className="VStack">
-              <p> {target.comment[i].user}</p>
-              <p> {target.comment[i].comment}</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    return details;
-  }
+  // function commentLayout(id: number) {
+  //   const details = [];
+  //   const target = videoes[id];
+  //   if (target.comment!.length < 1) return details;
+  //   for (let i = 0; i < target.comment.length; i++) {
+  //     details.push(
+  //       <div className="VStack">
+  //         <div className="HStack">
+  //           <div>users' profile</div>
+  //           <div className="VStack">
+  //             <p> {target.comment[i].user}</p>
+  //             <p> {target.comment[i].comment}</p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  //   return details;
+  // }
   const fork = (id: string) => {
     if (!isFork) {
       setForkCount(forkCount + 1);
@@ -293,9 +301,8 @@ const PlayPage: NextPageWithLayout = () => {
             <button className="Button-primary pl-4 pr-4 Circle">Follow</button>
           </div>
           <div className="HStack gap-36 overflow-x-auto max-w-full">
-  {displayVideoList(videoes)}
-</div>
-
+            {displayVideoList(videoes)}
+          </div>
 
           <div className="VStack gap-4">
             <div className="HStack gap-4">
@@ -357,7 +364,23 @@ const PlayPage: NextPageWithLayout = () => {
               <></>
             )}
 
-            <div className="VStack">{commentLayout(0)}</div>
+            <div className="VStack">
+              {comments.length > 0 && (
+                <>
+                    {comments.map((comment: CommentCardProp) => {
+                      return (
+                        // eslint-disable-next-line react/jsx-key
+                        <Comment
+                          name={comment.name}
+                          profilePic={comment.profilePic}
+                          comment={comment.comment}
+                        />
+                      );
+                    })}
+                </>
+              )}
+
+            </div>
           </div>
         </div>
       </div>
