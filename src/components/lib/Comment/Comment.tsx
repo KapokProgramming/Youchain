@@ -3,6 +3,7 @@
 import { ethers } from "ethers";
 
 const Comment = (props) => {
+    const amount = ethers.formatEther(BigInt(props.amount));
 	return (
 		<>
 			<div className="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
@@ -24,10 +25,16 @@ const Comment = (props) => {
 							</p>
 						</div>
 					</div>
+                    
 				</div>
-				<p className="text-gray-500">
-					<span className="bg-red-500 text-white px-1 py-2 rounded-md mr-2">$KUB {ethers.formatEther(BigInt(props.amount))}</span>
-					{props.comment}
+				<p className="text-gray-500 d-block mr-5">
+                    { Number(amount) > 0 ? (
+                        <>
+                            <span className="bg-red-500 text-white px-1 py-2 rounded-md mr-2">$KUB {amount}</span>
+                        </>
+                    ): <></>
+                }
+                    {props.comment}
 				</p>
 			</div>
 		</>

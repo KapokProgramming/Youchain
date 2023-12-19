@@ -354,7 +354,7 @@ const PlayPage: NextPageWithLayout = () => {
 					<div className="VStack gap-4">
 						<div className="HStack gap-4">
 							<p className="Title">Comments </p>
-							<p>{commentCount}</p>
+							<p>{comments.length}</p>
 							<p>times</p>
 						</div>
 						{signedIn ? (
