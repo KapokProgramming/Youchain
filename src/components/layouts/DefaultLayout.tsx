@@ -91,7 +91,7 @@ export function DefaultLayout({ children }: Props) {
                   <g
                     id="页面-1"
                     stroke="none"
-                    stroke-width="1"
+                    strokeWidth="1"
                     fill="none"
                     fill-rule="evenodd"
                   >
@@ -175,7 +175,7 @@ export function DefaultLayout({ children }: Props) {
                   <g
                     id="页面-1"
                     stroke="none"
-                    stroke-width="1"
+                    strokeWidth="1"
                     fill="none"
                     fill-rule="evenodd"
                   >
@@ -393,7 +393,7 @@ export function DefaultLayout({ children }: Props) {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         stroke="currentColor"
                         className="w-5 h-5 pt-1"
                       >
@@ -435,7 +435,7 @@ export function DefaultLayout({ children }: Props) {
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke-width="1.5"
+                            strokeWidth="1.5"
                             stroke="currentColor"
                             className="w-5 h-5"
                           >
@@ -457,7 +457,7 @@ export function DefaultLayout({ children }: Props) {
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke-width="1.5"
+                            strokeWidth="1.5"
                             stroke="currentColor"
                             className="w-5 h-5"
                           >
@@ -480,7 +480,7 @@ export function DefaultLayout({ children }: Props) {
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke-width="1.5"
+                            strokeWidth="1.5"
                             stroke="currentColor"
                             className="w-5 h-5"
                           >
@@ -509,7 +509,7 @@ export function DefaultLayout({ children }: Props) {
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke-width="1.5"
+                            strokeWidth="1.5"
                             stroke="currentColor"
                             className="w-5 h-5"
                           >

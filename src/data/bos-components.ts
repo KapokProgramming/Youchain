@@ -20,7 +20,7 @@ export const componentsByNetworkId: Record<NetworkId, NetworkComponents | undefi
   },
 
   mainnet: {
-    loginWeb3: 'kan_k.near/widget/LoginWeb3',
+    loginWeb3: 'kan_k.near/widget/LoginWeb3TestNet',
     profileImage: 'mob.near/widget/ProfileImage',
     profileBanner: 'kan_k.near/widget/ProfileBanner',
     videoCard: 'kan_k.near/widget/VideoCard',
