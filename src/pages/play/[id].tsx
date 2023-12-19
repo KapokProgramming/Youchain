@@ -67,12 +67,16 @@ const PlayPage: NextPageWithLayout = () => {
 					console.log(res);
 					let comments_temp: Object[] = [];
 					res.forEach((element: ethers.Result) => {
-						comments_temp.push({
-							poster: element[0][0],
-							message: element[0][1],
-							amount: Number(element[0][2]),
-							timestamp: Number(element[0][3])
-						});
+						getAtomic(ethWallet.signer)
+							.getAddressNearID(element[0])
+							.then((near_id) => {
+								comments_temp.push({
+									poster: near_id,
+									message: element[1],
+									amount: Number(element[2]),
+									timestamp: Number(element[3]),
+								});
+							});
 					});
 					setComments(comments_temp);
 				});
@@ -221,27 +225,29 @@ const PlayPage: NextPageWithLayout = () => {
 			});
 	};
 
-	const [commentMessage, setCommentMessage] = useState("")
-	const [commentAmount, setCommentAmount] = useState(0)
+	const [commentMessage, setCommentMessage] = useState("");
+	const [commentAmount, setCommentAmount] = useState(0);
 
 	const onMessageUpdate = (event) => {
 		setCommentMessage(event.target.value);
-	}
+	};
 
 	const onAmountUpdate = (event) => {
 		setCommentAmount(event.target.value);
-	}
+	};
 
 	const handleMessageSubmit = async () => {
 		// console.log(, commentMessage)
 		if (ethWallet?.signer) {
-			getAtomic(ethWallet.signer)
-				.addComment(router.query.id, commentMessage, {value:ethers.parseEther(commentAmount.toString()) } )
+			getAtomic(ethWallet.signer).addComment(
+				router.query.id,
+				commentMessage,
+				{ value: ethers.parseEther(commentAmount.toString()) }
+			);
 		}
-		setCommentMessage("")
-		setCommentAmount(0)
-
-	}
+		setCommentMessage("");
+		setCommentAmount(0);
+	};
 	return (
 		<>
 			<div className="VStack w-full">
@@ -249,7 +255,8 @@ const PlayPage: NextPageWithLayout = () => {
 					<video
 						className=" w-full h-[640px] object-contain bg-stone-900"
 						src={video["src"]}
-						controls={true} autoPlay={true}></video>
+						controls={true}
+						autoPlay={true}></video>
 				</div>
 				<div className="HStack justify-between mt-2 mb-2 items-start">
 					<div className="VStack">
@@ -262,15 +269,17 @@ const PlayPage: NextPageWithLayout = () => {
 								onClick={toggleLike}>
 								<p className="p-2">
 									<BiSolidLike
-										className={` ${isLiked
-											? "text-red-500"
-											: "text-white"
-											}`}
+										className={` ${
+											isLiked
+												? "text-red-500"
+												: "text-white"
+										}`}
 									/>
 								</p>
 								<p
-									className={` ${isLiked ? "text-red-500" : "text-white"
-										}`}>
+									className={` ${
+										isLiked ? "text-red-500" : "text-white"
+									}`}>
 									{" "}
 									{likeCount}
 								</p>
@@ -281,17 +290,19 @@ const PlayPage: NextPageWithLayout = () => {
 								onClick={toggleDislike}>
 								<p className="p-2">
 									<BiSolidDislike
-										className={` ${isDisliked
-											? "text-red-500"
-											: "text-white"
-											}`}
+										className={` ${
+											isDisliked
+												? "text-red-500"
+												: "text-white"
+										}`}
 									/>
 								</p>
 								<p
-									className={` ${isDisliked
-										? "text-red-500"
-										: "text-white"
-										}`}>
+									className={` ${
+										isDisliked
+											? "text-red-500"
+											: "text-white"
+									}`}>
 									{" "}
 									{dislikeCount}
 								</p>
@@ -303,13 +314,15 @@ const PlayPage: NextPageWithLayout = () => {
 							onClick={() => fork(video["title"])}>
 							<p className="p-2">
 								<CgGitFork
-									className={` ${isFork ? "text-red-500" : "text-white"
-										}`}
+									className={` ${
+										isFork ? "text-red-500" : "text-white"
+									}`}
 								/>
 							</p>
 							<p
-								className={` ${isFork ? "text-red-500" : "text-white"
-									}`}>
+								className={` ${
+									isFork ? "text-red-500" : "text-white"
+								}`}>
 								{" "}
 								{forkCount}
 							</p>
@@ -325,7 +338,9 @@ const PlayPage: NextPageWithLayout = () => {
 							alt=""
 						/>
 						<div className="VStack px-2">
-							<Link href={`/profile/${video["owner"]}`}>{video["owner"]}</Link>
+							<Link href={`/profile/${video["owner"]}`}>
+								{video["owner"]}
+							</Link>
 							<p>128k follower</p>
 						</div>
 						<button className="Button-primary px-4 rounded-full my-1">
@@ -347,7 +362,12 @@ const PlayPage: NextPageWithLayout = () => {
 								<div className="VStack w-full gap-8">
 									<div className="HStack gap-4">
 										<label>Donation Amount</label>
-										<input type="number" min={0} max={10000} value={commentAmount} onChange={onAmountUpdate}></input>
+										<input
+											type="number"
+											min={0}
+											max={10000}
+											value={commentAmount}
+											onChange={onAmountUpdate}></input>
 									</div>
 									<div className="HStack gap-4">
 										<img
@@ -363,11 +383,13 @@ const PlayPage: NextPageWithLayout = () => {
 											rows={3}
 											placeholder="Comment here bro!"
 											value={commentMessage}
-											onChange={onMessageUpdate} 
+											onChange={onMessageUpdate}
 										/>
-											<button className="Button-primary" onClick={handleMessageSubmit}>
-												Post
-											</button>
+										<button
+											className="Button-primary"
+											onClick={handleMessageSubmit}>
+											Post
+										</button>
 									</div>
 								</div>
 							</>
@@ -377,16 +399,20 @@ const PlayPage: NextPageWithLayout = () => {
 						<div className="VStack">
 							{comments.length > 0 && (
 								<>
-									{comments.map((comment: CommentCardProp) => {
-										return (
-											// eslint-disable-next-line react/jsx-key
-											<Comment
-												name={comment.poster}
-												profilePic={comment.profilePic}
-												comment={comment.message}
-											/>
-										);
-									})}
+									{comments.map(
+										(comment: CommentCardProp) => {
+											return (
+												// eslint-disable-next-line react/jsx-key
+												<Comment
+													name={comment.poster}
+													profilePic={
+														comment.profilePic
+													}
+													comment={comment.message}
+												/>
+											);
+										}
+									)}
 								</>
 							)}
 						</div>

@@ -39,12 +39,6 @@ const ProfilePage: NextPageWithLayout = () => {
 		}
 	}, [ethWallet]);
 
-	const AccDetails = {
-		name: "Elon Musk",
-		subscribers: "10,000,000",
-		profilePic:
-			"https://th.bing.com/th/id/R.cc580032c51804526c6e1e2288119f25?rik=wjntycSgOd0Meg&pid=ImgRaw&r=0",
-	};
 	function displayVideoDetails(videos: object[]) {
 		const details = [];
 		for (let i = 0; i < videos.length; i++) {
