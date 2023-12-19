@@ -1,5 +1,5 @@
 import { useDefaultLayout } from "@/hooks/useLayout";
-import type { NextPageWithLayout } from "@/utils/types";
+import { CommentCardProp, type NextPageWithLayout } from "@/utils/types";
 import { BiSolidLike } from "react-icons/bi";
 import { BiSolidDislike } from "react-icons/bi";
 import { CgGitFork } from "react-icons/cg";
@@ -11,6 +11,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useEthWallet } from "@/hooks/useWallet";
 import { getAtomic } from "@/lib/atomic/contract";
 import { ethers } from "ethers";
+import Comment from "@/components/lib/Comment/Comment";
 
 const PlayPage: NextPageWithLayout = () => {
 	const ethWallet = useEthWallet();
@@ -33,7 +34,7 @@ const PlayPage: NextPageWithLayout = () => {
 				});
 		}
 	}, [ethWallet]);
-  const [videos, setVideos] = useState<Array<Object>>([]);
+	const [videos, setVideos] = useState<Array<Object>>([]);
 	useEffect(() => {
 		if (ethWallet?.signer) {
 			getAtomic(ethWallet.signer)
@@ -56,7 +57,7 @@ const PlayPage: NextPageWithLayout = () => {
 				});
 		}
 	}, [ethWallet]);
-  const [comments, setComments] = useState<Array<Object>>([]);
+	const [comments, setComments] = useState<Array<Object>>([]);
 	useEffect(() => {
 		if (ethWallet?.signer) {
 			getAtomic(ethWallet.signer)
@@ -66,13 +67,10 @@ const PlayPage: NextPageWithLayout = () => {
 					let comments_temp: Object[] = [];
 					res.forEach((element: ethers.Result) => {
 						comments_temp.push({
-							id: Number(element[0][0]),
-							title: element[0][1],
-							description: element[0][2],
-							owner: element[1],
-							src: element[0][3],
-							thumbnail: element[0][4],
-							timestamp: Number(element[0][7]),
+							poster: element[0][0],
+							message: element[0][1],
+							amount: Number(element[0][2]),
+							timestamp: Number(element[0][3])
 						});
 					});
 					setComments(comments_temp);
@@ -241,17 +239,15 @@ const PlayPage: NextPageWithLayout = () => {
 								onClick={toggleLike}>
 								<p className="p-2">
 									<BiSolidLike
-										className={` ${
-											isLiked
+										className={` ${isLiked
 												? "text-red-500"
 												: "text-white"
-										}`}
+											}`}
 									/>
 								</p>
 								<p
-									className={` ${
-										isLiked ? "text-red-500" : "text-white"
-									}`}>
+									className={` ${isLiked ? "text-red-500" : "text-white"
+										}`}>
 									{" "}
 									{likeCount}
 								</p>
@@ -262,19 +258,17 @@ const PlayPage: NextPageWithLayout = () => {
 								onClick={toggleDislike}>
 								<p className="p-2">
 									<BiSolidDislike
-										className={` ${
-											isDisliked
+										className={` ${isDisliked
 												? "text-red-500"
 												: "text-white"
-										}`}
+											}`}
 									/>
 								</p>
 								<p
-									className={` ${
-										isDisliked
+									className={` ${isDisliked
 											? "text-red-500"
 											: "text-white"
-									}`}>
+										}`}>
 									{" "}
 									{dislikeCount}
 								</p>
@@ -286,15 +280,13 @@ const PlayPage: NextPageWithLayout = () => {
 							onClick={() => fork(video["title"])}>
 							<p className="p-2">
 								<CgGitFork
-									className={` ${
-										isFork ? "text-red-500" : "text-white"
-									}`}
+									className={` ${isFork ? "text-red-500" : "text-white"
+										}`}
 								/>
 							</p>
 							<p
-								className={` ${
-									isFork ? "text-red-500" : "text-white"
-								}`}>
+								className={` ${isFork ? "text-red-500" : "text-white"
+									}`}>
 								{" "}
 								{forkCount}
 							</p>
@@ -381,8 +373,22 @@ const PlayPage: NextPageWithLayout = () => {
 						) : (
 							<></>
 						)}
-
-						<div className="VStack">{commentLayout(0)}</div>
+						<div className="VStack">
+							{comments.length > 0 && (
+								<>
+									{comments.map((comment: CommentCardProp) => {
+										return (
+											// eslint-disable-next-line react/jsx-key
+											<Comment
+												name={comment.poster}
+												profilePic={comment.profilePic}
+												comment={comment.message}
+											/>
+										);
+									})}
+								</>
+							)}
+						</div>
 					</div>
 				</div>
 			</div>
