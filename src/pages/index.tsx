@@ -71,13 +71,13 @@ const HomePage: NextPageWithLayout = () => {
 					let videos_temp: Object[] = [];
 					res.forEach((element: ethers.Result) => {
 						videos_temp.push({
-							id: Number(element[0]),
-							title: element[1],
-							description: element[2],
-							owner: "",
-							src: element[3],
-							thumbnail: element[4],
-							timestamp: Number(element[7]),
+							id: Number(element[0][0]),
+							title: element[0][1],
+							description: element[0][2],
+							owner: element[1],
+							src: element[0][3],
+							thumbnail: element[0][4],
+							timestamp: Number(element[0][7]),
 						});
 					});
 					setVideos(videos_temp);
