@@ -49,7 +49,7 @@ const ProfilePage: NextPageWithLayout = () => {
 		const details = [];
 		for (let i = 0; i < videos.length; i++) {
 			details.push(
-				<Link href={videos[i]["src"]}>
+				<Link href={`/play/${videos[i]["id"]}`}>
 					<div className=" rounded-lg overflow-hidden flex flex-col bg-gray-200 hover:bg-gray-500 shadow-md">
 						<img
 							src={videos[i]["thumbnail"]}

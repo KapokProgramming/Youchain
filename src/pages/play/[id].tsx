@@ -12,6 +12,7 @@ import { useEthWallet } from "@/hooks/useWallet";
 import { getAtomic } from "@/lib/atomic/contract";
 import { ethers } from "ethers";
 import Comment from "@/components/lib/Comment/Comment";
+import Link from "next/link";
 
 const PlayPage: NextPageWithLayout = () => {
 	const ethWallet = useEthWallet();
@@ -248,7 +249,7 @@ const PlayPage: NextPageWithLayout = () => {
 					<video
 						className=" w-full h-[640px] object-contain bg-stone-900"
 						src={video["src"]}
-						controls={true}></video>
+						controls={true} autoPlay={true}></video>
 				</div>
 				<div className="HStack justify-between mt-2 mb-2 items-start">
 					<div className="VStack">
@@ -323,11 +324,11 @@ const PlayPage: NextPageWithLayout = () => {
 							className="w-10 h-10"
 							alt=""
 						/>
-						<div className="VStack">
-							<p>{video["owner"]}</p>
+						<div className="VStack px-2">
+							<Link href={`/profile/${video["owner"]}`}>{video["owner"]}</Link>
 							<p>128k follower</p>
 						</div>
-						<button className="Button-primary pl-4 pr-4 Circle">
+						<button className="Button-primary px-4 rounded-full my-1">
 							Follow
 						</button>
 					</div>
